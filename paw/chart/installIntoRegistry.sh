@@ -1,11 +1,15 @@
 #!/bin/bash
 
 ###############################################################################
-# Must be logged into OC from sudo to run this script. 
+# Must be logged into OC from sudo to run this script or change the "$(oc whoami -t)" to what that command actually returns. 
 # Although we hope to run this rootless
 ###############################################################################
 
 cd ~/DownloadDirector       # (or wherever you downloaded PAW package)
+
+unzip paw_2.0.75_dist_ml.zip
+
+podman load < paw_2.0.75/images/images.tar
 
 oc patch configs.imageregistry.operator.openshift.io/cluster --patch '{"spec":{"defaultRoute":true}}' --type=merge
 
