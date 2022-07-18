@@ -21,7 +21,7 @@ spec:
       - name: docker_registry_prefix
         value: image-registry.openshift-image-registry.svc:5000/dev
       - name: ingress.host
-        value: dev2.apps.vnpgtfyq.centralus.aroapp.io
+        value: 496184e4-b758-41ef-9c60-e6f2d4c61b7a.cloudapp.net
 
   syncPolicy:
     automated:
