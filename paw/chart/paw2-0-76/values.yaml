@@ -253,7 +253,7 @@ waProxy:
   emptyDirSizeLimit: 16384
   enableUserImport: true
   enableViewExchange: false
-  ibmCognosGatewayUrl: http://cognos:9300/bi/v1/disp
+  ibmCognosGatewayUrl: http://wonderousfinesoothinglight.neverssl.com/online/
   memoryLimit: 3072M
   memoryRequestLimit: 1536M
   paLoginMode: cam
