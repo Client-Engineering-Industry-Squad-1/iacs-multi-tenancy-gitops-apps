@@ -21,7 +21,7 @@ spec:
       - name: docker_registry_prefix
         value: image-registry.openshift-image-registry.svc:5000/dev
       - name: ingress.host
-        value: "172.16.25.254"
+        value: "azuretest01.mdmpt.iacs.ibm.com"
 
   syncPolicy:
     automated:
