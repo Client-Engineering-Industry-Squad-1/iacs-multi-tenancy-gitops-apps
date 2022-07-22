@@ -74,7 +74,7 @@ spec:
             secretName: {{ .Values.secrets.tlsCertSecretName }}{{ .Values.instanceIdWithinNamespace }}
       initContainers:
         - name: prepare-cacerts
-          image: {{ .Values.docker_registry_prefix }}/k8s-config:1.0.103-ubi8
+          image: {{ .Values.docker_registry_prefix }}/k8s-config:1.0.107-ubi8
           command: ["/bin/bash"]
           args: ["-c", "/opt/harmony/start.sh cajks"]
           env:
@@ -105,7 +105,7 @@ spec:
             mountPath: /run/secrets/paw/tls-cert
       containers:
         - name: neo-provision
-          image: {{ .Values.docker_registry_prefix }}/neo-provision:1.0.353-ubi8
+          image: {{ .Values.docker_registry_prefix }}/neo-provision:1.0.360-ubi8
           ports:
             - containerPort: 8083
               protocol: TCP

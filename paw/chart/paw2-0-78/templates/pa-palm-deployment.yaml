@@ -57,7 +57,7 @@ spec:
               topologyKey: kubernetes.io/paw
       containers:
         - name: palm-service
-          image: {{ .Values.docker_registry_prefix }}/palm-service:1.0.187-ubi8
+          image: {{ .Values.docker_registry_prefix }}/palm-service:1.0.202-ubi8
           ports:
             - containerPort: 9085
               protocol: TCP            

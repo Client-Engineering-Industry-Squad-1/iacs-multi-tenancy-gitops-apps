@@ -57,7 +57,7 @@ spec:
               topologyKey: kubernetes.io/paw
       containers:
         - name: paw-ui-api
-          image: {{ .Values.docker_registry_prefix }}/paw-ui-api:1.0.147-ubi8
+          image: {{ .Values.docker_registry_prefix }}/paw-ui-api:1.0.159-ubi8
           ports:
             - containerPort: 3000
               protocol: TCP

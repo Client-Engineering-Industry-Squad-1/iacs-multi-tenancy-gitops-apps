@@ -55,7 +55,7 @@ spec:
               topologyKey: kubernetes.io/paw
       containers:
         - name: gateway
-          image: {{ .Values.docker_registry_prefix }}/pa-gateway:1.0.1055-ubi8
+          image: {{ .Values.docker_registry_prefix }}/pa-gateway:1.0.1061-ubi8
           ports:
             - containerPort: 8000
               protocol: TCP

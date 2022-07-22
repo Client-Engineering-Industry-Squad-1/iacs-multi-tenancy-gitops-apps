@@ -57,7 +57,7 @@ spec:
               topologyKey: kubernetes.io/paw
       containers:
         - name: cdn
-          image: {{ .Values.docker_registry_prefix }}/pa-cdn:3.0.6301-ubi8
+          image: {{ .Values.docker_registry_prefix }}/pa-cdn:3.0.7096-ubi8
           ports:
             - containerPort: 8080
               protocol: TCP

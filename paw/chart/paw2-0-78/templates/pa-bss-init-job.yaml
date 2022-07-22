@@ -42,7 +42,7 @@ spec:
                 - {{ .Values.arch }}
       containers:
         - name: bss-init
-          image: {{ .Values.docker_registry_prefix }}/bss-init:1.0.286-ubi8
+          image: {{ .Values.docker_registry_prefix }}/bss-init:1.0.290-ubi8
           command: ["/bin/bash"]
           args: ["-c", "./run.sh"]
           env:

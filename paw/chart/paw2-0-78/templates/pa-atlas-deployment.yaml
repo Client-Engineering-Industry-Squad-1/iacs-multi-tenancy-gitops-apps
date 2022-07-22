@@ -57,7 +57,7 @@ spec:
               topologyKey: kubernetes.io/paw
       containers:
         - name: atlas
-          image: {{ .Values.docker_registry_prefix }}/atlas-service:95-ubi8
+          image: {{ .Values.docker_registry_prefix }}/atlas-service:100-ubi8
           ports:
             - containerPort: 9076
               protocol: TCP

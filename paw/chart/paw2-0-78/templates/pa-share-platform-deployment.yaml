@@ -57,7 +57,7 @@ spec:
               topologyKey: kubernetes.io/paw
       containers:
         - name: share-platform
-          image: {{ .Values.docker_registry_prefix }}/share-platform:1.0.379-ubi8
+          image: {{ .Values.docker_registry_prefix }}/share-platform:1.0.386-ubi8
           ports:
             - containerPort: 9110
               protocol: TCP

@@ -73,7 +73,7 @@ spec:
             secretName: {{ .Values.secrets.tlsCertSecretName }}{{ .Values.instanceIdWithinNamespace }}
       initContainers:
         - name: prepare-cacerts
-          image: {{ .Values.docker_registry_prefix }}/k8s-config:1.0.103-ubi8
+          image: {{ .Values.docker_registry_prefix }}/k8s-config:1.0.107-ubi8
           command: ["/bin/bash"]
           args: ["-c", "/opt/harmony/start.sh capem"]
           env:
@@ -100,7 +100,7 @@ spec:
             mountPath: /run/secrets/paw/tls-cert
       containers:
         - name: mysql-server2-stunnel
-          image: {{ .Values.docker_registry_prefix }}/mysql-cluster:2.0.167-ubi8
+          image: {{ .Values.docker_registry_prefix }}/mysql-cluster:2.0.171-ubi8
           command: [ "/mysql-stunnel.sh", "mysql-server" ]
           ports:
             - containerPort: 11186
@@ -127,7 +127,7 @@ spec:
           terminationMessagePolicy: File
           imagePullPolicy: IfNotPresent
         - name: mysql-server2
-          image: {{ .Values.docker_registry_prefix }}/mysql-cluster:2.0.167-ubi8
+          image: {{ .Values.docker_registry_prefix }}/mysql-cluster:2.0.171-ubi8
           args: ["mysqld", "--log-error=/var/lib/mysql/log.err"]
           ports:
             - containerPort: 3306

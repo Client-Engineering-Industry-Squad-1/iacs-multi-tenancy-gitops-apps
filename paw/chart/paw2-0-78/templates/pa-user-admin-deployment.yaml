@@ -70,7 +70,7 @@ spec:
             secretName: {{ .Values.secrets.tlsCertSecretName }}{{ .Values.instanceIdWithinNamespace }}
       initContainers:
         - name: prepare-cacerts
-          image: {{ .Values.docker_registry_prefix }}/k8s-config:1.0.103-ubi8
+          image: {{ .Values.docker_registry_prefix }}/k8s-config:1.0.107-ubi8
           command: ["/bin/bash"]
           args: ["-c", "/opt/harmony/start.sh capem"]
           env:
@@ -97,7 +97,7 @@ spec:
             mountPath: /run/secrets/paw/tls-cert
       containers:
         - name: user-admin
-          image: {{ .Values.docker_registry_prefix }}/user-admin:1.0.647-ubi8
+          image: {{ .Values.docker_registry_prefix }}/user-admin:1.0.654-ubi8
           ports:
             - containerPort: 3333
               protocol: TCP

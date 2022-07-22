@@ -57,7 +57,7 @@ spec:
               topologyKey: kubernetes.io/paw
       containers:
         - name: glass
-          image: {{ .Values.docker_registry_prefix }}/pa-glass:3.0.6301-ubi8
+          image: {{ .Values.docker_registry_prefix }}/pa-glass:3.0.7096-ubi8
           ports:
             - containerPort: 9080
               protocol: TCP

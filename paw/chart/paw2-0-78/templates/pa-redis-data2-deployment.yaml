@@ -74,7 +74,7 @@ spec:
             secretName: {{ .Values.secrets.tlsCertSecretName }}{{ .Values.instanceIdWithinNamespace }}
       initContainers:
         - name: prepare-cacerts
-          image: {{ .Values.docker_registry_prefix }}/k8s-config:1.0.103-ubi8
+          image: {{ .Values.docker_registry_prefix }}/k8s-config:1.0.107-ubi8
           command: ["/bin/bash"]
           args: ["-c", "/opt/harmony/start.sh capem"]
           env:
@@ -100,7 +100,7 @@ spec:
           - name: pa-tls-cert
             mountPath: /run/secrets/paw/tls-cert
         - name: redis-data2-reset
-          image: {{ .Values.docker_registry_prefix }}/k8s-config:1.0.103-ubi8
+          image: {{ .Values.docker_registry_prefix }}/k8s-config:1.0.107-ubi8
           command: ["/bin/bash"]
           args: ["-c", "/opt/harmony/start.sh redis"]
           env:
@@ -125,7 +125,7 @@ spec:
           imagePullPolicy: IfNotPresent
       containers:
         - name: redis-data2
-          image: {{ .Values.docker_registry_prefix }}/redis:1.0.176-ubi8
+          image: {{ .Values.docker_registry_prefix }}/redis:1.0.179-ubi8
           ports:
             - containerPort: 6379
               protocol: TCP

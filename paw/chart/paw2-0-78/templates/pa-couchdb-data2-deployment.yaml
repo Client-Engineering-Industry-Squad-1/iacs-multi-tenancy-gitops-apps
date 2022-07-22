@@ -76,7 +76,7 @@ spec:
             secretName: pa-tls-cacerts{{ .Values.instanceIdWithinNamespace }}
       initContainers:
         - name: prepare-cacerts
-          image: {{ .Values.docker_registry_prefix }}/k8s-config:1.0.103-ubi8
+          image: {{ .Values.docker_registry_prefix }}/k8s-config:1.0.107-ubi8
           command: ["/bin/bash"]
           args: ["-c", "/opt/harmony/start.sh capem"]
           env:
@@ -103,7 +103,7 @@ spec:
             mountPath: /run/secrets/paw/tls-cert
       containers:
         - name: couchdb-data2
-          image: {{ .Values.docker_registry_prefix }}/couchdb:193-ubi8
+          image: {{ .Values.docker_registry_prefix }}/couchdb:196-ubi8
           ports:
             - containerPort: 6984
               protocol: TCP
