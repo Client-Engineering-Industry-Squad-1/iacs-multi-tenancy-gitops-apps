@@ -256,7 +256,7 @@ waProxy:
   ibmCognosGatewayUrl: http://cognos:9300/bi/v1/disp
   memoryLimit: 3072M
   memoryRequestLimit: 1536M
-  paLoginMode: cam
+  paLoginMode: tm1
   replicas: 2
   sessionTimeout: 60m
   tm1LoginUrl: http://tm1data:52670/
