@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: paw-dev3
+  annotations:
+    argocd.argoproj.io/sync-wave: "300"
+  labels:
+    gitops.tier.layer: applications
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: dev3
+    server: https://kubernetes.default.svc
+  project: applications
+  source:
+    repoURL: https://github.com/Client-Engineering-Industry-Squad-1/iacs-multi-tenancy-gitops-apps.git
+    path: paw/chart/paw2-0-76
+    helm:
+      parameters:
+      - name: docker_registry_prefix
+        value: image-registry.openshift-image-registry.svc:5000/dev
+      - name: ingress.host
+        value: "dev3-pa.apps.vnpgtfyq.centralus.aroapp.io"
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
