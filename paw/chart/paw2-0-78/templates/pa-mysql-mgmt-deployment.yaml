@@ -112,7 +112,7 @@ spec:
           imagePullPolicy: IfNotPresent
         - name: mysql-mgmt-stunnel
           image: {{ .Values.docker_registry_prefix }}/mysql-cluster:2.0.171-ubi8
-          command: [ "/mysql-stunnel.sh", "mysql-mgmt" ]
+          command: [ "/tools/start-stunnel.sh" ]
           ports:
             - containerPort: 11186
               protocol: TCP
