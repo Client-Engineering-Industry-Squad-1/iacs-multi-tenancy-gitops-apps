@@ -45,7 +45,7 @@ common:
   secureSessionCookie: false
   tm1APIPort: 
   tm1ApplicationsLocation: http://tm1spreadsheetservices:9510/tm1web/
-  tm1Location: http://tm1data:5895
+  tm1Location: http://172.16.1.4:5895
 couchdb:
   cpuLimit: 1000m
   cpuRequestLimit: 250m
@@ -259,6 +259,6 @@ waProxy:
   paLoginMode: tm1
   replicas: 2
   sessionTimeout: 60m
-  tm1LoginUrl: http://tm1data:52670/
+  tm1LoginUrl: http://172.16.1.4:52670
   xFrameOptions: sameorigin
 serviceAccountName: default
