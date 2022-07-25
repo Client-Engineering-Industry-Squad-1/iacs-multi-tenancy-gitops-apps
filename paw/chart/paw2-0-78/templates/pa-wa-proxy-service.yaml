@@ -10,8 +10,7 @@ metadata:
     name: wa-proxy{{ .Values.instanceIdWithinNamespace }}
     release: {{ .Release.Name }}
   name: wa-proxy{{ .Values.instanceIdWithinNamespace }}
-  annotations:
-    argocd.argoproj.io/sync-wave: “300"
+  namespace: {{ .Release.Namespace }}
 spec:
   ports:
     - name: wa-proxy-1{{ .Values.instanceIdWithinNamespace }}

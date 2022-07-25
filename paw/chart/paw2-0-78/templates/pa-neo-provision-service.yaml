@@ -10,8 +10,7 @@ metadata:
     name: neo-provision{{ .Values.instanceIdWithinNamespace }}
     release: {{ .Release.Name }}
   name: neo-provision{{ .Values.instanceIdWithinNamespace }}
-  annotations:
-    argocd.argoproj.io/sync-wave: “300"
+  namespace: {{ .Release.Namespace }}
 spec:
   ports:
     - name: neo-provision{{ .Values.instanceIdWithinNamespace }}

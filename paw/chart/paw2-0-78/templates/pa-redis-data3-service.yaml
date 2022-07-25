@@ -10,8 +10,7 @@ metadata:
     name: redis-data3{{ .Values.instanceIdWithinNamespace }}
     release: {{ .Release.Name }}
   name: redis3{{ .Values.instanceIdWithinNamespace }}
-  annotations:
-    argocd.argoproj.io/sync-wave: “300"
+  namespace: {{ .Release.Namespace }}
 spec:
   ports:
     - name: redis3{{ .Values.instanceIdWithinNamespace }}

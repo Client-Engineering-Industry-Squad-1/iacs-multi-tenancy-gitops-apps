@@ -10,8 +10,7 @@ metadata:
     name: neo-provision{{ .Values.instanceIdWithinNamespace }}
     release: {{ .Release.Name }}
   name: neo-provision{{ .Values.instanceIdWithinNamespace }}
-  annotations:
-    argocd.argoproj.io/sync-wave: “300"
+  namespace: {{ .Release.Namespace }}
 spec:
   replicas: {{ .Values.neoProvision.replicas }}
   selector:
@@ -33,7 +32,7 @@ spec:
         helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
         name: neo-provision{{ .Values.instanceIdWithinNamespace }}
         release: {{ .Release.Name }}
-        version: "1.0.353-ubi8"
+        version: "1.0.360-ubi8"
         pa-cacerts-version: {{ .Values.secrets.cacertVersion }}
         pa-java-truststore-version: {{ .Values.secrets.javaTruststoreVersion }}
         pa-tls-version: {{ .Values.secrets.tlsCertVersion }}
@@ -85,6 +84,13 @@ spec:
            - name: TRUST_STORE_PASSWORD
              value: "/run/secrets/paw/java-truststore-credential/credential"
           imagePullPolicy: IfNotPresent
+          resources:
+            limits:
+              cpu: {{ .Values.secrets.cpuLimit }}
+              memory: {{ .Values.secrets.memoryLimit }}
+            requests:
+              cpu: {{ .Values.secrets.cpuRequestLimit }}
+              memory: {{ .Values.secrets.memoryRequestLimit }}
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:
@@ -120,6 +126,13 @@ spec:
               value: "/run/secrets/paw/java-truststore-credential/credential"
             - name: SecureSessionCookie
               value: "{{ .Values.common.secureSessionCookie }}"
+          resources:
+            limits:
+              cpu: "{{ .Values.neoProvision.cpuLimit }}"
+              memory: "{{ .Values.neoProvision.memoryLimit }}"
+            requests:
+              cpu: "{{ .Values.neoProvision.cpuRequestLimit }}"
+              memory: "{{ .Values.neoProvision.memoryRequestLimit }}"
           securityContext:
             runAsNonRoot: true
             capabilities:
@@ -136,11 +149,27 @@ spec:
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
           imagePullPolicy: IfNotPresent
+          livenessProbe:
+            httpGet:
+              path: /provision/health
+              port: 8083
+            failureThreshold: {{ .Values.neoProvision.livenessProbeFailureThreshold }}
+            initialDelaySeconds: {{ .Values.neoProvision.livenessProbeDelaySeconds }}
+            periodSeconds: {{ .Values.neoProvision.livenessProbePeriodSeconds }}
+            timeoutSeconds: {{ .Values.neoProvision.livenessProbeTimeoutSeconds }}
+          readinessProbe:
+            httpGet:
+              path: /provision/health
+              port: 8083
+            failureThreshold: {{ .Values.neoProvision.readinessProbeFailureThreshold }}
+            initialDelaySeconds: {{ .Values.neoProvision.readinessProbeDelaySeconds }}
+            periodSeconds: {{ .Values.neoProvision.readinessProbePeriodSeconds }}
+            timeoutSeconds: {{ .Values.neoProvision.readinessProbeTimeoutSeconds }}
       hostNetwork: false
       hostIPC: false
       hostPID: false
       restartPolicy: Always
-      serviceAccountName: {{ .Values.serviceAccountName }}
+      serviceAccountName: default
       terminationGracePeriodSeconds: 30
       dnsPolicy: ClusterFirst
       schedulerName: default-scheduler

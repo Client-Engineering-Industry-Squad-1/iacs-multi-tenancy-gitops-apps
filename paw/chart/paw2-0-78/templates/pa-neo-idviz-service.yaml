@@ -10,8 +10,7 @@ metadata:
     name: neo-idviz{{ .Values.instanceIdWithinNamespace }}
     release: {{ .Release.Name }}
   name: neo-idviz{{ .Values.instanceIdWithinNamespace }}
-  annotations:
-    argocd.argoproj.io/sync-wave: “300"
+  namespace: {{ .Release.Namespace }}
 spec:
   ports:
     - name: neo-idviz{{ .Values.instanceIdWithinNamespace }}
