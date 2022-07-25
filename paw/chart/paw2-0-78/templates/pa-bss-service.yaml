@@ -10,8 +10,7 @@ metadata:
     name: bss{{ .Values.instanceIdWithinNamespace }}
     release: {{ .Release.Name }}
   name: bss{{ .Values.instanceIdWithinNamespace }}
-  annotations:
-    argocd.argoproj.io/sync-wave: “300"
+  namespace: {{ .Release.Namespace }}
 spec:
   ports:
     - name: bss{{ .Values.instanceIdWithinNamespace }}

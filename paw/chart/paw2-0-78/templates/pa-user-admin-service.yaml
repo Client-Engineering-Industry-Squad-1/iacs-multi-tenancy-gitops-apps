@@ -10,8 +10,7 @@ metadata:
     name: user-admin{{ .Values.instanceIdWithinNamespace }}
     release: {{ .Release.Name }}
   name: user-admin{{ .Values.instanceIdWithinNamespace }}
-  annotations:
-    argocd.argoproj.io/sync-wave: “300"
+  namespace: {{ .Release.Namespace }}
 spec:
   ports:
     - name: user-admin{{ .Values.instanceIdWithinNamespace }}

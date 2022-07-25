@@ -10,8 +10,7 @@ metadata:
     name: paw-ui-api{{ .Values.instanceIdWithinNamespace }}
     release: {{ .Release.Name }}
   name: paw-ui-api{{ .Values.instanceIdWithinNamespace }}
-  annotations:
-    argocd.argoproj.io/sync-wave: “300"
+  namespace: {{ .Release.Namespace }}
 spec:
   ports:
     - name: paw-ui-api{{ .Values.instanceIdWithinNamespace }}

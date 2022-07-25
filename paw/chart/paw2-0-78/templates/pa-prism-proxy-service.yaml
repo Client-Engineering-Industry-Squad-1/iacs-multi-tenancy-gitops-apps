@@ -10,8 +10,7 @@ metadata:
     name: prism-proxy{{ .Values.instanceIdWithinNamespace }}
     release: {{ .Release.Name }}
   name: prism-proxy{{ .Values.instanceIdWithinNamespace }}
-  annotations:
-    argocd.argoproj.io/sync-wave: “300"
+  namespace: {{ .Release.Namespace }}
 spec:
   ports:
     - name: prism-proxy-1{{ .Values.instanceIdWithinNamespace }}

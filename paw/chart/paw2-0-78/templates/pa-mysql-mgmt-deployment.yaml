@@ -10,8 +10,7 @@ metadata:
     name: mysql-mgmt{{ .Values.instanceIdWithinNamespace }}
     release: {{ .Release.Name }}
   name: mysql-mgmt{{ .Values.instanceIdWithinNamespace }}
-  annotations:
-    argocd.argoproj.io/sync-wave: “300"
+  namespace: {{ .Release.Namespace }}
 spec:
   replicas: 1
   selector:
@@ -33,7 +32,7 @@ spec:
         helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
         name: mysql-mgmt{{ .Values.instanceIdWithinNamespace }}
         release: {{ .Release.Name }}
-        version: "2.0.167-ubi8"
+        version: "2.0.171-ubi8"
         pa-cacerts-version: {{ .Values.secrets.cacertVersion }}
         pa-tls-version: {{ .Values.secrets.tlsCertVersion }}
     spec:
@@ -63,7 +62,7 @@ spec:
             secretName: {{ .Values.secrets.tlsCertSecretName }}{{ .Values.instanceIdWithinNamespace }}
       initContainers:
         - name: prepare-cacerts
-          image: {{ .Values.docker_registry_prefix }}/k8s-config:1.0.103-ubi8
+          image: {{ .Values.docker_registry_prefix }}/k8s-config:1.0.107-ubi8
           command: ["/bin/bash"]
           args: ["-c", "/opt/harmony/start.sh capem"]
           env:
@@ -72,6 +71,13 @@ spec:
            - name: PA_KUBE_TLS_CA_CERT
              value: /run/secrets/paw/tls-cert/{{ .Values.secrets.tlsCaCertName }}
           imagePullPolicy: IfNotPresent
+          resources:
+            limits:
+              cpu: {{ .Values.secrets.cpuLimit }}
+              memory: {{ .Values.secrets.memoryLimit }}
+            requests:
+              cpu: {{ .Values.secrets.cpuRequestLimit }}
+              memory: {{ .Values.secrets.memoryRequestLimit }}
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:
@@ -90,12 +96,19 @@ spec:
             mountPath: /run/secrets/paw/tls-cert
       containers:
         - name: pingservice
-          image: {{ .Values.docker_registry_prefix }}/k8s-config:1.0.103-ubi8
+          image: {{ .Values.docker_registry_prefix }}/k8s-config:1.0.107-ubi8
           command: ["/bin/bash"]
           args: ["-c", "/opt/harmony/pingservice" ]
           ports:
             - containerPort: 31001
               protocol: TCP
+          resources:
+            limits:
+              cpu: "{{ .Values.common.cpuLimit }}"
+              memory: "{{ .Values.common.memoryLimit }}"
+            requests:
+              cpu: "{{ .Values.common.cpuRequestLimit }}"
+              memory: "{{ .Values.common.memoryRequestLimit }}"
           env:
             - name: PINGSERVICE_PORT
               value: "31001"
@@ -110,17 +123,64 @@ spec:
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
           imagePullPolicy: IfNotPresent
+          livenessProbe:
+            httpGet:
+              path: /ping
+              port: 31001
+            failureThreshold: {{ .Values.mysqlMgmt.livenessProbeFailureThreshold }}
+            initialDelaySeconds: {{ .Values.mysqlMgmt.livenessProbeDelaySeconds }}
+            periodSeconds: {{ .Values.mysqlMgmt.livenessProbePeriodSeconds }}
+            timeoutSeconds: {{ .Values.mysqlMgmt.livenessProbeTimeoutSeconds }}
+          readinessProbe:
+            httpGet:
+              path: /ping
+              port: 31001
+            failureThreshold: {{ .Values.mysqlMgmt.readinessProbeFailureThreshold }}
+            initialDelaySeconds: {{ .Values.mysqlMgmt.readinessProbePeriodSeconds }}
+            periodSeconds: {{ .Values.mysqlMgmt.readinessProbePeriodSeconds }}
+            timeoutSeconds: {{ .Values.mysqlMgmt.readinessProbeTimeoutSeconds }}
         - name: mysql-mgmt-stunnel
           image: {{ .Values.docker_registry_prefix }}/mysql-cluster:2.0.171-ubi8
-          command: [ "/mysql-stunnel.sh", "mysql-mgmt" ]
+          command: [ "/tools/start-stunnel.sh" ]
           ports:
             - containerPort: 11186
               protocol: TCP
+          resources:
+            limits:
+              cpu: "{{ .Values.mysqlMgmtStunnel.cpuLimit }}"
+              memory: "{{ .Values.mysqlMgmtStunnel.memoryLimit }}"
+            requests:
+              cpu: "{{ .Values.mysqlMgmtStunnel.cpuRequestLimit }}"
+              memory: "{{ .Values.mysqlMgmtStunnel.memoryRequestLimit }}"
           env:
             - name: MYSQL_INSTANCE
               value: "{{ .Values.instanceIdWithinNamespace }}"
             - name: MYSQL_DOMAIN
               value: "{{ .Release.Namespace }}.{{ .Values.common.internalDomainName }}"
+            - name: STUNNEL_CLIENT_MAPPINGS
+              value: "mysql-data1,127.0.0.1:2201,mysql-data1{{ .Values.instanceIdWithinNamespace }}:12201 mysql-data2,127.0.0.1:2202,mysql-data2{{ .Values.instanceIdWithinNamespace }}:12202"
+            - name: STUNNEL_SERVER_CA_FILE
+              value: "/run/config/cacerts.pem"
+            - name: STUNNEL_SERVER_CERT_FILE
+              value: "/run/secrets/paw/tls-cert/tls.crt"
+            - name: STUNNEL_SERVER_KEY_FILE
+              value: "/run/secrets/paw/tls-cert/tls.key"
+            - name: STUNNEL_SERVER_MAPPINGS
+              value: "mysql-mgmt,0.0.0.0:11186,127.0.0.1:1186"
+            - name: STUNNEL_CLIENT_VERIFY_CHAIN
+              value: "false"
+            - name: STUNNEL_CLIENT_VERIFY_HOST
+              value: "false"
+            - name: STUNNEL_CLIENT_VERIFY_PEER
+              value: "false"
+            - name: STUNNEL_SERVER_REQUIRE_TLS
+              value: "false"
+            - name: STUNNEL_SERVER_VERIFY_CHAIN
+              value: "false"
+            - name: STUNNEL_SERVER_VERIFY_HOST
+              value: "false"
+            - name: STUNNEL_SERVER_VERIFY_PEER
+              value: "false"
           securityContext:
             runAsNonRoot: true
             capabilities:
@@ -133,10 +193,23 @@ spec:
             - name: pa-cacerts
               mountPath: /run/config              
             - name: pa-tls-cert
-              mountPath: /run/secrets/paw/internal-tls-cert
+              mountPath: /run/secrets/paw/tls-cert
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
           imagePullPolicy: IfNotPresent
+          livenessProbe:
+            exec:
+              command:
+                - date
+            periodSeconds: {{ .Values.mysqlMgmt.livenessProbePeriodSeconds }}
+            timeoutSeconds: {{ .Values.mysqlMgmt.livenessProbeTimeoutSeconds }}
+          readinessProbe:
+            exec:
+              command:
+                - date
+            initialDelaySeconds: {{ .Values.mysqlMgmt.readinessProbeDelaySeconds }}
+            periodSeconds: {{ .Values.mysqlMgmt.readinessProbePeriodSeconds }}
+            timeoutSeconds: {{ .Values.mysqlMgmt.readinessProbeTimeoutSeconds }}
         - name: mysql-mgmt
           image: {{ .Values.docker_registry_prefix }}/mysql-cluster:2.0.171-ubi8
           args: ["ndb_mgmd", "--config-cache=FALSE"]                    
@@ -151,13 +224,20 @@ spec:
             privileged: false
             readOnlyRootFilesystem: false
             allowPrivilegeEscalation: false
+          resources:
+            limits:
+              cpu: "{{ .Values.mysqlMgmt.cpuLimit }}"
+              memory: "{{ .Values.mysqlMgmt.memoryLimit }}"
+            requests:
+              cpu: "{{ .Values.mysqlMgmt.cpuRequestLimit }}"
+              memory: "{{ .Values.mysqlMgmt.memoryRequestLimit }}"
           env:
             - name: ENABLE_SSL
               value: "true"
             - name: SIDECAR_NAME
               value: "mysql-mgmt-stunnel"
             - name: SIDECAR_PORTS
-              value: "1186,2201,2202"
+              value: "11186,2201,2202"
             - name: SIDECAR_EXTRA_WAIT
               value: "5"
             - name: HOSTNAMES
@@ -170,11 +250,29 @@ spec:
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
           imagePullPolicy: IfNotPresent
+          livenessProbe:
+            exec:
+              command:
+              - /bin/bash
+              - -c
+              - mysqladmin --host="${MYSQL_SERVER:-mysql-server}" ping  
+            failureThreshold: {{ .Values.mysqlMgmt.livenessProbeFailureThreshold }}
+            initialDelaySeconds: {{ .Values.mysqlMgmt.livenessProbeDelaySeconds }}
+            periodSeconds: {{ .Values.mysqlMgmt.livenessProbePeriodSeconds }}
+            timeoutSeconds: {{ .Values.mysqlMgmt.livenessProbeTimeoutSeconds }}
+          readinessProbe:
+            exec:
+              command:
+                - date
+            failureThreshold: {{ .Values.mysqlMgmt.readinessProbeFailureThreshold }}
+            initialDelaySeconds: {{ .Values.mysqlMgmt.readinessProbeDelaySeconds }}
+            periodSeconds: {{ .Values.mysqlMgmt.readinessProbePeriodSeconds }}
+            timeoutSeconds: {{ .Values.mysqlMgmt.readinessProbeTimeoutSeconds }}
       hostNetwork: false
       hostIPC: false
       hostPID: false
       restartPolicy: Always
-      serviceAccountName: {{ .Values.serviceAccountName }}
+      serviceAccountName: default
       terminationGracePeriodSeconds: 30
       dnsPolicy: ClusterFirst
       schedulerName: default-scheduler

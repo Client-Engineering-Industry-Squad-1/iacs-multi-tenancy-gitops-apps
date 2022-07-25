@@ -10,8 +10,7 @@ metadata:
     name: mysql-data2{{ .Values.instanceIdWithinNamespace }}
     release: {{ .Release.Name }}
   name: mysql-data2{{ .Values.instanceIdWithinNamespace }}
-  annotations:
-    argocd.argoproj.io/sync-wave: “300"
+  namespace: {{ .Release.Namespace }}
 spec:
   ports:
     - name: mysql-data2{{ .Values.instanceIdWithinNamespace }}

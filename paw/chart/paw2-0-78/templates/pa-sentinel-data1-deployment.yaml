@@ -10,8 +10,7 @@ metadata:
     name: sentinel-data1{{ .Values.instanceIdWithinNamespace }}
     release: {{ .Release.Name }}
   name: sentinel-data1{{ .Values.instanceIdWithinNamespace }}
-  annotations:
-    argocd.argoproj.io/sync-wave: “300"
+  namespace: {{ .Release.Namespace }}
 spec:
   replicas: 1
   selector:
@@ -33,7 +32,7 @@ spec:
         helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
         name: sentinel-data1{{ .Values.instanceIdWithinNamespace }}
         release: {{ .Release.Name }}
-        version: "1.0.176-ubi8"
+        version: "1.0.179-ubi8"
         pa-cacerts-version: {{ .Values.secrets.cacertVersion }}
         pa-tls-version: {{ .Values.secrets.tlsCertVersion }}
     spec:
@@ -83,6 +82,13 @@ spec:
            - name: PA_KUBE_TLS_CA_CERT
              value: /run/secrets/paw/tls-cert/{{ .Values.secrets.tlsCaCertName }}
           imagePullPolicy: IfNotPresent
+          resources:
+            limits:
+              cpu: {{ .Values.secrets.cpuLimit }}
+              memory: {{ .Values.secrets.memoryLimit }}
+            requests:
+              cpu: {{ .Values.secrets.cpuRequestLimit }}
+              memory: {{ .Values.secrets.memoryRequestLimit }}
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:
@@ -110,6 +116,13 @@ spec:
               value: "sentinel1{{ .Values.instanceIdWithinNamespace }}"
             - name: ENABLE_SSL
               value: "true"
+          resources:
+            limits:
+              cpu: "{{ .Values.common.cpuLimit }}"
+              memory: "{{ .Values.common.memoryLimit }}"
+            requests:
+              cpu: "{{ .Values.common.cpuRequestLimit }}"
+              memory: "{{ .Values.common.memoryRequestLimit }}"
           securityContext:
             runAsNonRoot: true
             capabilities:
@@ -131,6 +144,13 @@ spec:
           ports:
             - containerPort: 26379
               protocol: TCP
+          resources:
+            limits:
+              cpu: "{{ .Values.sentinel.cpuLimit }}"
+              memory: "{{ .Values.sentinel.memoryLimit }}"
+            requests:
+              cpu: "{{ .Values.sentinel.cpuRequestLimit }}"
+              memory: "{{ .Values.sentinel.memoryRequestLimit }}"
           env:
             - name: REDIS_TYPE
               value: "sentinel"
@@ -167,11 +187,27 @@ spec:
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
           imagePullPolicy: IfNotPresent
+          livenessProbe:
+            exec:
+              command:
+                - /tools/ping.sh
+            failureThreshold: {{ .Values.sentinel.livenessProbeFailureThreshold }}
+            initialDelaySeconds: {{ .Values.sentinel.livenessProbeDelaySeconds }}
+            periodSeconds: {{ .Values.sentinel.livenessProbePeriodSeconds }}
+            timeoutSeconds: {{ .Values.sentinel.livenessProbeTimeoutSeconds }}
+          readinessProbe:
+            exec:
+              command:
+                - /tools/ping.sh
+            failureThreshold: {{ .Values.sentinel.readinessProbeFailureThreshold }}
+            initialDelaySeconds: {{ .Values.sentinel.readinessProbeDelaySeconds }}
+            periodSeconds: {{ .Values.sentinel.readinessProbePeriodSeconds }}
+            timeoutSeconds: {{ .Values.sentinel.readinessProbeTimeoutSeconds }}
       hostNetwork: false
       hostIPC: false
       hostPID: false
       restartPolicy: Always
-      serviceAccountName: {{ .Values.serviceAccountName }}
+      serviceAccountName: default
       terminationGracePeriodSeconds: 30
       dnsPolicy: ClusterFirst
       schedulerName: {{ .Values.persistence.podScheduler }}

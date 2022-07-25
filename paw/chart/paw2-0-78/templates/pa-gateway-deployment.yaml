@@ -10,8 +10,7 @@ metadata:
     name: gateway{{ .Values.instanceIdWithinNamespace }}
     release: {{ .Release.Name }}
   name: gateway{{ .Values.instanceIdWithinNamespace }}
-  annotations:
-    argocd.argoproj.io/sync-wave: “300"
+  namespace: {{ .Release.Namespace }}
 spec:
   replicas: {{ .Values.gateway.replicas }}
   selector:
@@ -31,7 +30,7 @@ spec:
         helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
         name: gateway{{ .Values.instanceIdWithinNamespace }}
         release: {{ .Release.Name }}
-        version: "1.0.1055-ubi8"
+        version: "1.0.1061-ubi8"
     spec:
       affinity:
         nodeAffinity:
@@ -66,6 +65,13 @@ spec:
               value: "{{ .Values.common.proxyTimeoutSeconds }}"
             - name: WAProxyLocation
               value: "http://wa-proxy{{ .Values.instanceIdWithinNamespace }}.{{ .Release.Namespace }}.{{ .Values.common.internalDomainName }}:1338"              
+          resources:
+            limits:
+              cpu: "{{ .Values.gateway.cpuLimit }}"
+              memory: "{{ .Values.gateway.memoryLimit }}"
+            requests:
+              cpu: "{{ .Values.gateway.cpuRequestLimit }}"
+              memory: "{{ .Values.gateway.memoryRequestLimit }}"
           securityContext:
             runAsNonRoot: true
             capabilities:
@@ -77,11 +83,27 @@ spec:
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
           imagePullPolicy: IfNotPresent
+          livenessProbe:
+            httpGet:
+              path: /proxyhealth
+              port: 8000
+            failureThreshold: {{ .Values.gateway.livenessProbeFailureThreshold }}
+            initialDelaySeconds: {{ .Values.gateway.livenessProbeDelaySeconds }}
+            periodSeconds: {{ .Values.gateway.livenessProbePeriodSeconds }}
+            timeoutSeconds: {{ .Values.gateway.livenessProbeTimeoutSeconds }}
+          readinessProbe:
+            httpGet:
+              path: /proxyhealth
+              port: 8000
+            failureThreshold: {{ .Values.gateway.readinessProbeFailureThreshold }}
+            initialDelaySeconds: {{ .Values.gateway.readinessProbeDelaySeconds }}
+            periodSeconds: {{ .Values.gateway.readinessProbePeriodSeconds }}
+            timeoutSeconds: {{ .Values.gateway.readinessProbeTimeoutSeconds }}
       hostNetwork: false
       hostIPC: false
       hostPID: false
       restartPolicy: Always
-      serviceAccountName: {{ .Values.serviceAccountName }}
+      serviceAccountName: default
       terminationGracePeriodSeconds: 30
       dnsPolicy: ClusterFirst
       schedulerName: default-scheduler

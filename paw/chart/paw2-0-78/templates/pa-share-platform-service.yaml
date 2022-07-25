@@ -10,8 +10,7 @@ metadata:
     name: share-platform{{ .Values.instanceIdWithinNamespace }}
     release: {{ .Release.Name }}
   name: share-platform{{ .Values.instanceIdWithinNamespace }}
-  annotations:
-    argocd.argoproj.io/sync-wave: “300"
+  namespace: {{ .Release.Namespace }}
 spec:
   ports:
     - name: share-platform-http{{ .Values.instanceIdWithinNamespace }}

@@ -10,8 +10,7 @@ metadata:
     name: palm-service{{ .Values.instanceIdWithinNamespace }}
     release: {{ .Release.Name }}
   name: palm-service{{ .Values.instanceIdWithinNamespace }}
-  annotations:
-    argocd.argoproj.io/sync-wave: “300"
+  namespace: {{ .Release.Namespace }}
 spec:
   replicas: {{ .Values.palmService.replicas }}
   selector:
@@ -33,7 +32,7 @@ spec:
         helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
         name: palm-service{{ .Values.instanceIdWithinNamespace }}
         release: {{ .Release.Name }}
-        version: "1.0.187-ubi8"
+        version: "1.0.202-ubi8"
     spec:
       affinity:
         nodeAffinity:
@@ -62,6 +61,13 @@ spec:
             - containerPort: 9085
               protocol: TCP            
           env:
+          resources:
+            limits:
+              cpu: "{{ .Values.palmService.cpuLimit }}"
+              memory: "{{ .Values.palmService.memoryLimit }}"
+            requests:
+              cpu: "{{ .Values.palmService.cpuRequestLimit }}"
+              memory: "{{ .Values.palmService.memoryRequestLimit }}"
           securityContext:
             runAsNonRoot: true
             capabilities:
@@ -73,11 +79,27 @@ spec:
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
           imagePullPolicy: IfNotPresent
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 9085
+            failureThreshold: {{ .Values.palmService.livenessProbeFailureThreshold }}
+            initialDelaySeconds: {{ .Values.palmService.livenessProbeDelaySeconds }}
+            periodSeconds: {{ .Values.palmService.livenessProbePeriodSeconds }}
+            timeoutSeconds: {{ .Values.palmService.livenessProbeTimeoutSeconds }}
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 9085
+            failureThreshold: {{ .Values.palmService.readinessProbeFailureThreshold }}
+            initialDelaySeconds: {{ .Values.palmService.readinessProbeDelaySeconds }}
+            periodSeconds: {{ .Values.palmService.readinessProbePeriodSeconds }}
+            timeoutSeconds: {{ .Values.palmService.readinessProbeTimeoutSeconds }}
       hostNetwork: false
       hostIPC: false
       hostPID: false
       restartPolicy: Always
-      serviceAccountName: {{ .Values.serviceAccountName }}
+      serviceAccountName: default
       terminationGracePeriodSeconds: 30
       dnsPolicy: ClusterFirst
       schedulerName: default-scheduler
