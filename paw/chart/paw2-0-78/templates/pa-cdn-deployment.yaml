@@ -10,7 +10,8 @@ metadata:
     name: cdn{{ .Values.instanceIdWithinNamespace }}
     release: {{ .Release.Name }}
   name: cdn{{ .Values.instanceIdWithinNamespace }}
-  namespace: {{ .Release.Namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: “300"
 spec:
   replicas: {{ .Values.cdn.replicas }}
   selector:
@@ -32,7 +33,7 @@ spec:
         helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
         name: cdn{{ .Values.instanceIdWithinNamespace }}
         release: {{ .Release.Name }}
-        version: "3.0.7096-ubi8"
+        version: "3.0.6301-ubi8"
     spec:
       affinity:
         nodeAffinity:
@@ -61,13 +62,6 @@ spec:
             - containerPort: 8080
               protocol: TCP
           env:
-          resources:
-            limits:
-              cpu: "{{ .Values.cdn.cpuLimit }}"
-              memory: "{{ .Values.cdn.memoryLimit }}"
-            requests:
-              cpu: "{{ .Values.cdn.cpuRequestLimit }}"
-              memory: "{{ .Values.cdn.memoryRequestLimit }}"
           securityContext:
             runAsNonRoot: true
             capabilities:
@@ -79,27 +73,11 @@ spec:
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
           imagePullPolicy: IfNotPresent
-          livenessProbe:
-            httpGet:
-              path: /healthcheck
-              port: 8080
-            failureThreshold: {{ .Values.cdn.livenessProbeFailureThreshold }}
-            initialDelaySeconds:  {{ .Values.cdn.livenessProbeDelaySeconds }}
-            periodSeconds: {{ .Values.cdn.livenessProbePeriodSeconds }}
-            timeoutSeconds: {{ .Values.cdn.livenessProbeTimeoutSeconds }}
-          readinessProbe:
-            httpGet:
-              path: /healthcheck
-              port: 8080
-            failureThreshold: {{ .Values.cdn.readinessProbeFailureThreshold }}
-            initialDelaySeconds: {{ .Values.cdn.readinessProbeDelaySeconds }}
-            periodSeconds: {{ .Values.cdn.readinessProbePeriodSeconds }}
-            timeoutSeconds: {{ .Values.cdn.readinessProbeTimeoutSeconds }}
       hostNetwork: false
       hostIPC: false
       hostPID: false
       restartPolicy: Always
-      serviceAccountName: default
+      serviceAccountName: {{ .Values.serviceAccountName }}
       terminationGracePeriodSeconds: 30
       dnsPolicy: ClusterFirst
       schedulerName: default-scheduler

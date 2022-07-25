@@ -10,7 +10,8 @@ metadata:
     name: plan-service{{ .Values.instanceIdWithinNamespace }}
     release: {{ .Release.Name }}
   name: plan-service{{ .Values.instanceIdWithinNamespace }}
-  namespace: {{ .Release.Namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: “300"
 spec:
   replicas: {{ .Values.planService.replicas }}
   selector:
@@ -32,7 +33,7 @@ spec:
         helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
         name: plan-service{{ .Values.instanceIdWithinNamespace }}
         release: {{ .Release.Name }}
-        version: "1.0.2022062001-ubi8"
+        version: "1.0.2022042701-ubi8"
         pa-cacerts-version: {{ .Values.secrets.cacertVersion }}
         pa-java-truststore-version: {{ .Values.secrets.javaTruststoreVersion }}
         pa-tls-version: {{ .Values.secrets.tlsCertVersion }}
@@ -84,13 +85,6 @@ spec:
            - name: TRUST_STORE_PASSWORD
              value: "/run/secrets/paw/java-truststore-credential/credential"
           imagePullPolicy: IfNotPresent
-          resources:
-            limits:
-              cpu: {{ .Values.secrets.cpuLimit }}
-              memory: {{ .Values.secrets.memoryLimit }}
-            requests:
-              cpu: {{ .Values.secrets.cpuRequestLimit }}
-              memory: {{ .Values.secrets.memoryRequestLimit }}
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:
@@ -124,13 +118,6 @@ spec:
               value: "/run/config/cacerts"
             - name: TRUST_STORE_PASSWORD
               value: "/run/secrets/paw/java-truststore-credential/credential"
-          resources:
-            limits:
-              cpu: "{{ .Values.planService.cpuLimit }}"
-              memory: "{{ .Values.planService.memoryLimit }}"
-            requests:
-              cpu: "{{ .Values.planService.cpuRequestLimit }}"
-              memory: "{{ .Values.planService.memoryRequestLimit }}"
           securityContext:
             runAsNonRoot: true
             capabilities:
@@ -147,27 +134,11 @@ spec:
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
           imagePullPolicy: IfNotPresent
-          livenessProbe:
-            httpGet:
-              path: /plan-service/api/v1/healthCheck
-              port: 9080
-            failureThreshold: {{ .Values.planService.livenessProbeFailureThreshold }}
-            initialDelaySeconds: {{ .Values.planService.livenessProbeDelaySeconds }}
-            periodSeconds: {{ .Values.planService.livenessProbePeriodSeconds }}
-            timeoutSeconds: {{ .Values.planService.livenessProbeTimeoutSeconds }}
-          readinessProbe:
-            httpGet:
-              path: /plan-service/api/v1/healthCheck
-              port: 9080
-            failureThreshold: {{ .Values.planService.readinessProbeFailureThreshold }}
-            initialDelaySeconds: {{ .Values.planService.readinessProbeDelaySeconds }}
-            periodSeconds: {{ .Values.planService.readinessProbePeriodSeconds }}
-            timeoutSeconds: {{ .Values.planService.readinessProbeTimeoutSeconds }}
       hostNetwork: false
       hostIPC: false
       hostPID: false
       restartPolicy: Always
-      serviceAccountName: default
+      serviceAccountName: {{ .Values.serviceAccountName }}
       terminationGracePeriodSeconds: 30
       dnsPolicy: ClusterFirst
       schedulerName: default-scheduler

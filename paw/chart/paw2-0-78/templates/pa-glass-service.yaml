@@ -10,7 +10,8 @@ metadata:
     name: glass{{ .Values.instanceIdWithinNamespace }}
     release: {{ .Release.Name }}
   name: glass{{ .Values.instanceIdWithinNamespace }}
-  namespace: {{ .Release.Namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: “300"
 spec:
   ports:
     - name: glass{{ .Values.instanceIdWithinNamespace }}

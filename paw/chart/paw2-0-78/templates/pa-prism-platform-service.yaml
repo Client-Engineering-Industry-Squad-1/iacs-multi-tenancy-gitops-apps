@@ -10,7 +10,8 @@ metadata:
     name: prism-platform{{ .Values.instanceIdWithinNamespace }}
     release: {{ .Release.Name }}
   name: prism-platform{{ .Values.instanceIdWithinNamespace }}
-  namespace: {{ .Release.Namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: “300"
 spec:
   ports:
     - name: prism-platform{{ .Values.instanceIdWithinNamespace }}

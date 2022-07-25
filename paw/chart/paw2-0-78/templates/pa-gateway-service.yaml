@@ -10,7 +10,8 @@ metadata:
     name: gateway{{ .Values.instanceIdWithinNamespace }}
     release: {{ .Release.Name }}
   name: gateway{{ .Values.instanceIdWithinNamespace }}
-  namespace: {{ .Release.Namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: “300"
 spec:
   ports:
     - name: gateway-http{{ .Values.instanceIdWithinNamespace }}

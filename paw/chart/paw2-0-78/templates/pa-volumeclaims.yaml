@@ -10,7 +10,8 @@ metadata:
     name: couchdb-data1{{ .Values.instanceIdWithinNamespace }}
     release: {{ .Release.Name }}
   name: couchdb-data1{{ .Values.instanceIdWithinNamespace }}
-  namespace: {{ .Release.Namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: “100"
 spec:
   accessModes:
     - ReadWriteOnce
@@ -31,7 +32,8 @@ metadata:
     name: mongo-data1{{ .Values.instanceIdWithinNamespace }}
     release: {{ .Release.Name }}
   name: mongo-data1{{ .Values.instanceIdWithinNamespace }}
-  namespace: {{ .Release.Namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: “100"
 spec:
   accessModes:
     - ReadWriteOnce
@@ -52,7 +54,8 @@ metadata:
     name: mysql-data1{{ .Values.instanceIdWithinNamespace }}
     release: {{ .Release.Name }}
   name: mysql-data1{{ .Values.instanceIdWithinNamespace }}
-  namespace: {{ .Release.Namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: “100"
 spec:
   accessModes:
     - ReadWriteOnce
@@ -73,7 +76,8 @@ metadata:
     name: redis-data1{{ .Values.instanceIdWithinNamespace }}
     release: {{ .Release.Name }}
   name: redis-data1{{ .Values.instanceIdWithinNamespace }}
-  namespace: {{ .Release.Namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: “100"
 spec:
   accessModes:
     - ReadWriteOnce
@@ -94,7 +98,8 @@ metadata:
     name: sentinel-data1{{ .Values.instanceIdWithinNamespace }}
     release: {{ .Release.Name }}
   name: sentinel-data1{{ .Values.instanceIdWithinNamespace }}
-  namespace: {{ .Release.Namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: “100"
 spec:
   accessModes:
     - ReadWriteOnce
@@ -115,7 +120,8 @@ metadata:
     name: couchdb-data2{{ .Values.instanceIdWithinNamespace }}
     release: {{ .Release.Name }}
   name: couchdb-data2{{ .Values.instanceIdWithinNamespace }}
-  namespace: {{ .Release.Namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: “100"
 spec:
   accessModes:
     - ReadWriteOnce
@@ -136,7 +142,8 @@ metadata:
     name: mongo-data2{{ .Values.instanceIdWithinNamespace }}
     release: {{ .Release.Name }}
   name: mongo-data2{{ .Values.instanceIdWithinNamespace }}
-  namespace: {{ .Release.Namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: “100"
 spec:
   accessModes:
     - ReadWriteOnce
@@ -157,7 +164,8 @@ metadata:
     name: mysql-data2{{ .Values.instanceIdWithinNamespace }}
     release: {{ .Release.Name }}
   name: mysql-data2{{ .Values.instanceIdWithinNamespace }}
-  namespace: {{ .Release.Namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: “100"
 spec:
   accessModes:
     - ReadWriteOnce
@@ -178,7 +186,8 @@ metadata:
     name: redis-data2{{ .Values.instanceIdWithinNamespace }}
     release: {{ .Release.Name }}
   name: redis-data2{{ .Values.instanceIdWithinNamespace }}
-  namespace: {{ .Release.Namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: “100"
 spec:
   accessModes:
     - ReadWriteOnce
@@ -199,7 +208,8 @@ metadata:
     name: sentinel-data2{{ .Values.instanceIdWithinNamespace }}
     release: {{ .Release.Name }}
   name: sentinel-data2{{ .Values.instanceIdWithinNamespace }}
-  namespace: {{ .Release.Namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: “100"
 spec:
   accessModes:
     - ReadWriteOnce
@@ -220,7 +230,8 @@ metadata:
     name: mongo-data3{{ .Values.instanceIdWithinNamespace }}
     release: {{ .Release.Name }}
   name: mongo-data3{{ .Values.instanceIdWithinNamespace }}
-  namespace: {{ .Release.Namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: “100"
 spec:
   accessModes:
     - ReadWriteOnce
@@ -241,7 +252,8 @@ metadata:
     name: redis-data3{{ .Values.instanceIdWithinNamespace }}
     release: {{ .Release.Name }}
   name: redis-data3{{ .Values.instanceIdWithinNamespace }}
-  namespace: {{ .Release.Namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: “100"
 spec:
   accessModes:
     - ReadWriteOnce
@@ -262,7 +274,8 @@ metadata:
     name: sentinel-data3{{ .Values.instanceIdWithinNamespace }}
     release: {{ .Release.Name }}
   name: sentinel-data3{{ .Values.instanceIdWithinNamespace }}
-  namespace: {{ .Release.Namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: “100"
 spec:
   accessModes:
     - ReadWriteOnce

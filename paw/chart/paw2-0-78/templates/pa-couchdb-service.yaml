@@ -10,7 +10,8 @@ metadata:
     name: couchdb{{ .Values.instanceIdWithinNamespace }}
     release: {{ .Release.Name }}
   name: couchdb{{ .Values.instanceIdWithinNamespace }}
-  namespace: {{ .Release.Namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: “300"
 spec:
   ports:
     - name: couchdb{{ .Values.instanceIdWithinNamespace }}

@@ -3,6 +3,8 @@ kind: Route
 metadata:
   annotations:
     haproxy.router.openshift.io/timeout: "{{ .Values.common.proxyTimeoutSeconds }}s"
+    haproxy.router.openshift.io/set-forwarded-headers: if-none
+    argocd.argoproj.io/sync-wave: “300"
   labels:
     app: {{ .Values.common.appName }}
     app.kubernetes.io/name: {{ .Values.common.appName }}

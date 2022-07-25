@@ -10,7 +10,8 @@ metadata:
     name: prism-proxy{{ .Values.instanceIdWithinNamespace }}
     release: {{ .Release.Name }}
   name: prism-proxy{{ .Values.instanceIdWithinNamespace }}
-  namespace: {{ .Release.Namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: “300"
 spec:
   replicas: {{ .Values.prismProxy.replicas }}
   selector:
@@ -32,7 +33,7 @@ spec:
         helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
         name: prism-proxy{{ .Values.instanceIdWithinNamespace }}
         release: {{ .Release.Name }}
-        version: "3.0.10602-ubi8"
+        version: "3.0.10437-ubi8"
     spec:
       affinity:
         nodeAffinity:
@@ -73,13 +74,6 @@ spec:
               value: "http://prism-platform{{ .Values.instanceIdWithinNamespace }}:9080"
             - name: ProxyTimeoutSeconds
               value: "{{ .Values.common.proxyTimeoutSeconds }}"
-          resources:
-            limits:
-              cpu: "{{ .Values.prismProxy.cpuLimit }}"
-              memory: "{{ .Values.prismProxy.memoryLimit }}"
-            requests:
-              cpu: "{{ .Values.prismProxy.cpuRequestLimit }}"
-              memory: "{{ .Values.prismProxy.memoryRequestLimit }}"
           securityContext:
             runAsNonRoot: true
             capabilities:
@@ -91,27 +85,11 @@ spec:
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
           imagePullPolicy: IfNotPresent
-          livenessProbe:
-            httpGet:
-              path: /proxyhealth
-              port: 9090
-            failureThreshold: {{ .Values.prismProxy.livenessProbeFailureThreshold }}
-            initialDelaySeconds: {{ .Values.prismProxy.livenessProbeDelaySeconds }}
-            periodSeconds: {{ .Values.prismProxy.livenessProbePeriodSeconds }}
-            timeoutSeconds: {{ .Values.prismProxy.livenessProbeTimeoutSeconds }}
-          readinessProbe:
-            httpGet:
-              path: /proxyhealth
-              port: 9090
-            failureThreshold: {{ .Values.prismProxy.readinessProbeFailureThreshold }}
-            initialDelaySeconds: {{ .Values.prismProxy.readinessProbeDelaySeconds }}
-            periodSeconds: {{ .Values.prismProxy.readinessProbePeriodSeconds }}
-            timeoutSeconds: {{ .Values.prismProxy.readinessProbeTimeoutSeconds }}
       hostNetwork: false
       hostIPC: false
       hostPID: false
       restartPolicy: Always
-      serviceAccountName: default
+      serviceAccountName: {{ .Values.serviceAccountName }}
       terminationGracePeriodSeconds: 30
       dnsPolicy: ClusterFirst
       schedulerName: default-scheduler

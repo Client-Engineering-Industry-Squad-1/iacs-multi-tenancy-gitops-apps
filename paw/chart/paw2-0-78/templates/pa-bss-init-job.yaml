@@ -10,7 +10,8 @@ metadata:
     name: bss-init{{ .Values.instanceIdWithinNamespace }}
     release: {{ .Release.Name }}
   name: bss-init{{ .Values.instanceIdWithinNamespace }}
-  namespace: {{ .Release.Namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: “500"
 spec:
   completions: 1
   parallelism: 1
@@ -28,7 +29,7 @@ spec:
         helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
         name: bss-init{{ .Values.instanceIdWithinNamespace }}
         release: {{ .Release.Name }}
-        version: "1.0.290-ubi8"
+        version: "1.0.286-ubi8"
     spec:
       affinity:
         nodeAffinity:
@@ -61,17 +62,8 @@ spec:
               value: "{{ .Values.bssInit.enableEditMdxView }}"
             - name: ENABLE_INTENT_BAR
               value: "{{ .Values.bssInit.enableIntentBar }}"
-            - name: ENABLE_EMAIL
-              value: "{{ .Values.bssInit.enableEmail }}"
             - name: WAProxyLocation
               value: "http://wa-proxy{{ .Values.instanceIdWithinNamespace }}.{{ .Release.Namespace }}.{{ .Values.common.internalDomainName }}:1331"
-          resources:
-            limits:
-              cpu: "{{ .Values.bssInit.cpuLimit }}"
-              memory: "{{ .Values.bssInit.memoryLimit }}"
-            requests:
-              cpu: "{{ .Values.bssInit.cpuRequestLimit }}"
-              memory: "{{ .Values.bssInit.memoryRequestLimit }}"
           securityContext:
             runAsNonRoot: true
             capabilities:
@@ -83,22 +75,6 @@ spec:
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
           imagePullPolicy: IfNotPresent
-          livenessProbe:
-            exec:
-              command:
-                - date
-            failureThreshold: {{ .Values.bssInit.livenessProbeFailureThreshold }}
-            initialDelaySeconds: {{ .Values.bssInit.livenessProbeDelaySeconds }}
-            periodSeconds: {{ .Values.bssInit.livenessProbePeriodSeconds }}
-            timeoutSeconds: {{ .Values.bssInit.livenessProbeTimeoutSeconds }}
-          readinessProbe:
-            exec:
-              command:
-                - date
-            failureThreshold: {{ .Values.bssInit.readinessProbeFailureThreshold }}
-            initialDelaySeconds: {{ .Values.bssInit.readinessProbeDelaySeconds }}
-            periodSeconds: {{ .Values.bssInit.readinessProbePeriodSeconds }}
-            timeoutSeconds: {{ .Values.bssInit.readinessProbeTimeoutSeconds }}
       hostNetwork: false
       hostIPC: false
       hostPID: false

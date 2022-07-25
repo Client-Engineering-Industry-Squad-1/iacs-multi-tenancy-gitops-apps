@@ -10,7 +10,8 @@ metadata:
     name: share-proxy{{ .Values.instanceIdWithinNamespace }}
     release: {{ .Release.Name }}
   name: share-proxy{{ .Values.instanceIdWithinNamespace }}
-  namespace: {{ .Release.Namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: “300"
 spec:
   ports:
     - name: share-proxy{{ .Values.instanceIdWithinNamespace }}

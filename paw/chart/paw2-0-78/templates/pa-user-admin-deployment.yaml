@@ -10,7 +10,8 @@ metadata:
     name: user-admin{{ .Values.instanceIdWithinNamespace }}
     release: {{ .Release.Name }}
   name: user-admin{{ .Values.instanceIdWithinNamespace }}
-  namespace: {{ .Release.Namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: “300"
 spec:
   replicas: {{ .Values.userAdmin.replicas }}
   selector:
@@ -32,7 +33,7 @@ spec:
         helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
         name: user-admin{{ .Values.instanceIdWithinNamespace }}
         release: {{ .Release.Name }}
-        version: "1.0.654-ubi8"
+        version: "1.0.647-ubi8"
         pa-cacerts-version: {{ .Values.secrets.cacertVersion }}
         pa-tls-version: {{ .Values.secrets.tlsCertVersion }}
     spec:
@@ -78,13 +79,6 @@ spec:
            - name: PA_KUBE_TLS_CA_CERT
              value: /run/secrets/paw/tls-cert/{{ .Values.secrets.tlsCaCertName }}
           imagePullPolicy: IfNotPresent
-          resources:
-            limits:
-              cpu: {{ .Values.secrets.cpuLimit }}
-              memory: {{ .Values.secrets.memoryLimit }}
-            requests:
-              cpu: {{ .Values.secrets.cpuRequestLimit }}
-              memory: {{ .Values.secrets.memoryRequestLimit }}
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:
@@ -112,13 +106,6 @@ spec:
               value: "{ \"name\": \"redis-cluster{{ .Values.instanceIdWithinNamespace }}\", \"sentinels\": [{ \"host\": \"sentinel1{{ .Values.instanceIdWithinNamespace }}.{{ .Release.Namespace }}.{{ .Values.common.internalDomainName }}\", \"port\": 26379 }, { \"host\": \"sentinel2{{ .Values.instanceIdWithinNamespace }}.{{ .Release.Namespace }}.{{ .Values.common.internalDomainName }}\", \"port\": 26379 }, { \"host\": \"sentinel3{{ .Values.instanceIdWithinNamespace }}.{{ .Release.Namespace }}.{{ .Values.common.internalDomainName }}\", \"port\": 26379 }], \"tls\": true }"
             - name: SSL_CA_BUNDLE_FILE
               value: "/run/config/cacerts.pem"
-          resources:
-            limits:
-              cpu: "{{ .Values.userAdmin.cpuLimit }}"
-              memory: "{{ .Values.userAdmin.memoryLimit }}"
-            requests:
-              cpu: "{{ .Values.userAdmin.cpuRequestLimit }}"
-              memory: "{{ .Values.userAdmin.memoryRequestLimit }}"
           securityContext:
             runAsNonRoot: true
             capabilities:
@@ -133,27 +120,11 @@ spec:
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
           imagePullPolicy: IfNotPresent
-          livenessProbe:
-            httpGet:
-              path: /rolemgmt/health
-              port: 3333
-            failureThreshold: {{ .Values.userAdmin.livenessProbeFailureThreshold }}
-            initialDelaySeconds: {{ .Values.userAdmin.livenessProbeDelaySeconds }}
-            periodSeconds: {{ .Values.userAdmin.livenessProbePeriodSeconds }}
-            timeoutSeconds: {{ .Values.userAdmin.livenessProbeTimeoutSeconds }}
-          readinessProbe:
-            httpGet:
-              path: /rolemgmt/health
-              port: 3333
-            failureThreshold: {{ .Values.userAdmin.readinessProbeFailureThreshold }}
-            initialDelaySeconds: {{ .Values.userAdmin.readinessProbeDelaySeconds }}
-            periodSeconds: {{ .Values.userAdmin.readinessProbePeriodSeconds }}
-            timeoutSeconds: {{ .Values.userAdmin.readinessProbeTimeoutSeconds }}
       hostNetwork: false
       hostIPC: false
       hostPID: false
       restartPolicy: Always
-      serviceAccountName: default
+      serviceAccountName: {{ .Values.serviceAccountName }}
       terminationGracePeriodSeconds: 30
       dnsPolicy: ClusterFirst
       schedulerName: default-scheduler

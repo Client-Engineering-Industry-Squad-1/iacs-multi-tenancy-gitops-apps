@@ -10,7 +10,8 @@ metadata:
     name: pa-content{{ .Values.instanceIdWithinNamespace }}
     release: {{ .Release.Name }}
   name: pa-content{{ .Values.instanceIdWithinNamespace }}
-  namespace: {{ .Release.Namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: “300"
 spec:
   ports:
     - name: pa-content{{ .Values.instanceIdWithinNamespace }}

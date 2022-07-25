@@ -10,7 +10,8 @@ metadata:
     name: prism-platform{{ .Values.instanceIdWithinNamespace }}
     release: {{ .Release.Name }}
   name: prism-platform{{ .Values.instanceIdWithinNamespace }}
-  namespace: {{ .Release.Namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: “300"
 spec:
   replicas: {{ .Values.prismPlatform.replicas }}
   selector:
@@ -32,7 +33,7 @@ spec:
         helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
         name: prism-platform{{ .Values.instanceIdWithinNamespace }}
         release: {{ .Release.Name }}
-        version: "3.0.2124.1-ubi8"
+        version: "3.0.2080.2-ubi8"
         pa-cacerts-version: {{ .Values.secrets.cacertVersion }}
         pa-java-truststore-version: {{ .Values.secrets.javaTruststoreVersion }}
         pa-paw-secret-version: {{ .Values.secrets.pawSecretVersion }}
@@ -82,13 +83,6 @@ spec:
            - name: TRUST_STORE_PASSWORD
              value: "/run/secrets/paw/java-truststore-credential/credential"
           imagePullPolicy: IfNotPresent
-          resources:
-            limits:
-              cpu: {{ .Values.secrets.cpuLimit }}
-              memory: {{ .Values.secrets.memoryLimit }}
-            requests:
-              cpu: {{ .Values.secrets.cpuRequestLimit }}
-              memory: {{ .Values.secrets.memoryRequestLimit }}
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:
@@ -121,20 +115,13 @@ spec:
             - name: JVM_ARGS
               value: "{{ .Values.prismPlatform.jvmArgs }}"
             - name: CDN_URL
-              value: "/prism/3.0.10602-ubi8"
+              value: "/prism/3.0.10437-ubi8"
             - name: MDV_URL
-              value: "/prism/mdv/3.0.1729"
+              value: "/prism/mdv/3.0.1568"
             - name: AGENT_API_KEY
               value: "{{ .Values.monitor.adminAgentAPIKey }}"            
             - name: TRUST_STORE_PASSWORD
               value: "/run/secrets/paw/java-truststore-credential/credential"
-          resources:
-            limits:
-              cpu: "{{ .Values.prismPlatform.cpuLimit }}"
-              memory: "{{ .Values.prismPlatform.memoryLimit }}"
-            requests:
-              cpu: "{{ .Values.prismPlatform.cpuRequestLimit }}"
-              memory: "{{ .Values.prismPlatform.memoryRequestLimit }}"
           securityContext:
             runAsNonRoot: true
             capabilities:
@@ -153,27 +140,11 @@ spec:
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
           imagePullPolicy: IfNotPresent
-          livenessProbe:
-            httpGet:
-              path: /healthcheck
-              port: 9080
-            failureThreshold: {{ .Values.prismPlatform.livenessProbeFailureThreshold }}
-            initialDelaySeconds: {{ .Values.prismPlatform.livenessProbeDelaySeconds }}
-            periodSeconds: {{ .Values.prismPlatform.livenessProbePeriodSeconds }}
-            timeoutSeconds: {{ .Values.prismPlatform.livenessProbeTimeoutSeconds }}
-          readinessProbe:
-            httpGet:
-              path: /healthcheck
-              port: 9080
-            failureThreshold: {{ .Values.prismPlatform.readinessProbeFailureThreshold }}
-            initialDelaySeconds: {{ .Values.prismPlatform.readinessProbeDelaySeconds }}
-            periodSeconds: {{ .Values.prismPlatform.readinessProbePeriodSeconds }}
-            timeoutSeconds: {{ .Values.prismPlatform.readinessProbeTimeoutSeconds }}
       hostNetwork: false
       hostIPC: false
       hostPID: false
       restartPolicy: Always
-      serviceAccountName: default
+      serviceAccountName: {{ .Values.serviceAccountName }}
       terminationGracePeriodSeconds: 30
       dnsPolicy: ClusterFirst
       schedulerName: default-scheduler

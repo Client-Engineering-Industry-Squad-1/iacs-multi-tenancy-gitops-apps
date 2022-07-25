@@ -10,7 +10,8 @@ metadata:
     name: bss{{ .Values.instanceIdWithinNamespace }}
     release: {{ .Release.Name }}
   name: bss{{ .Values.instanceIdWithinNamespace }}
-  namespace: {{ .Release.Namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: “300"
 spec:
   replicas: {{ .Values.bss.replicas }}
   selector:
@@ -32,7 +33,7 @@ spec:
         helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
         name: bss{{ .Values.instanceIdWithinNamespace }}
         release: {{ .Release.Name }}
-        version: "1.0.1348-ubi8"
+        version: "1.0.1331-ubi8"
         pa-cacerts-version: {{ .Values.secrets.cacertVersion }}
         pa-java-truststore-version: {{ .Values.secrets.javaTruststoreVersion }}
         pa-tls-version: {{ .Values.secrets.tlsCertVersion }}
@@ -84,13 +85,6 @@ spec:
            - name: TRUST_STORE_PASSWORD
              value: "/run/secrets/paw/java-truststore-credential/credential"
           imagePullPolicy: IfNotPresent
-          resources:
-            limits:
-              cpu: {{ .Values.secrets.cpuLimit }}
-              memory: {{ .Values.secrets.memoryLimit }}
-            requests:
-              cpu: {{ .Values.secrets.cpuRequestLimit }}
-              memory: {{ .Values.secrets.memoryRequestLimit }}
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:
@@ -113,13 +107,6 @@ spec:
           image: {{ .Values.docker_registry_prefix }}/mysql-cluster:2.0.171-ubi8
           command: ["/bin/bash"]
           args: ["-c", "/tools/wait-for-mysql-server.sh"]
-          resources:
-            limits:
-              cpu: "{{ .Values.common.cpuLimit }}"
-              memory: "{{ .Values.common.memoryLimit }}"
-            requests:
-              cpu: "{{ .Values.common.cpuRequestLimit }}"
-              memory: "{{ .Values.common.memoryRequestLimit }}"
           env:
             - name: ENABLE_SSL
               value: "true"
@@ -162,13 +149,6 @@ spec:
               value: "/run/config/cacerts"              
             - name: TRUST_STORE_PASSWORD
               value: "/run/secrets/paw/java-truststore-credential/credential"
-          resources:
-            limits:
-              cpu: "{{ .Values.bss.cpuLimit }}"
-              memory: "{{ .Values.bss.memoryLimit }}"
-            requests:
-              cpu: "{{ .Values.bss.cpuRequestLimit }}"
-              memory: "{{ .Values.bss.memoryRequestLimit }}"
           securityContext:
             runAsNonRoot: true
             capabilities:
@@ -185,27 +165,11 @@ spec:
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
           imagePullPolicy: IfNotPresent
-          livenessProbe:
-            httpGet:
-              path: /admin/health
-              port: 8082
-            failureThreshold: {{ .Values.bss.livenessProbeFailureThreshold }}
-            initialDelaySeconds: {{ .Values.bss.livenessProbeDelaySeconds }}
-            periodSeconds: {{ .Values.bss.livenessProbePeriodSeconds }}
-            timeoutSeconds: {{ .Values.bss.livenessProbeTimeoutSeconds }}
-          readinessProbe:
-            httpGet:
-              path: /admin/health
-              port: 8082
-            failureThreshold: {{ .Values.bss.readinessProbeFailureThreshold }}
-            initialDelaySeconds: {{ .Values.bss.readinessProbeDelaySeconds }}
-            periodSeconds: {{ .Values.bss.readinessProbePeriodSeconds }}
-            timeoutSeconds: {{ .Values.bss.readinessProbeTimeoutSeconds }}
       hostNetwork: false
       hostIPC: false
       hostPID: false
       restartPolicy: Always
-      serviceAccountName: default
+      serviceAccountName: {{ .Values.serviceAccountName }}
       terminationGracePeriodSeconds: 30
       dnsPolicy: ClusterFirst
       schedulerName: default-scheduler

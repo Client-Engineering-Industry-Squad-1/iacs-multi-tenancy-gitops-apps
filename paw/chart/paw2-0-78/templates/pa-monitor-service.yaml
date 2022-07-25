@@ -10,7 +10,8 @@ metadata:
     name: monitor{{ .Values.instanceIdWithinNamespace }}
     release: {{ .Release.Name }}
   name: monitor{{ .Values.instanceIdWithinNamespace }}
-  namespace: {{ .Release.Namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: “300"
 spec:
   ports:
     - name: monitor{{ .Values.instanceIdWithinNamespace }}

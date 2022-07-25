@@ -10,7 +10,8 @@ metadata:
     name: mongo-data2{{ .Values.instanceIdWithinNamespace }}
     release: {{ .Release.Name }}
   name: mongo-data2{{ .Values.instanceIdWithinNamespace }}
-  namespace: {{ .Release.Namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: “300"
 spec:
   replicas: 1
   selector:
@@ -32,7 +33,7 @@ spec:
         helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
         name: mongo-data2{{ .Values.instanceIdWithinNamespace }}
         release: {{ .Release.Name }}
-        version: "1.0.176-ubi8"
+        version: "1.0.172-ubi8"
         pa-cacerts-version: {{ .Values.secrets.cacertVersion }}
         pa-tls-version: {{ .Values.secrets.tlsCertVersion }}
     spec:
@@ -86,13 +87,6 @@ spec:
            - name: PA_KUBE_TLS_CA_CERT
              value: /run/secrets/paw/tls-cert/{{ .Values.secrets.tlsCaCertName }}
           imagePullPolicy: IfNotPresent
-          resources:
-            limits:
-              cpu: {{ .Values.secrets.cpuLimit }}
-              memory: {{ .Values.secrets.memoryLimit }}
-            requests:
-              cpu: {{ .Values.secrets.cpuRequestLimit }}
-              memory: {{ .Values.secrets.memoryRequestLimit }}
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:
@@ -117,13 +111,6 @@ spec:
           ports:
             - containerPort: 31000
               protocol: TCP
-          resources:
-            limits:
-              cpu: "{{ .Values.common.cpuLimit }}"
-              memory: "{{ .Values.common.memoryLimit }}"
-            requests:
-              cpu: "{{ .Values.common.cpuRequestLimit }}"
-              memory: "{{ .Values.common.memoryRequestLimit }}"
           env:
             - name: READINESS_PORT
               value: "31000"
@@ -145,22 +132,6 @@ spec:
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
           imagePullPolicy: IfNotPresent
-          livenessProbe:
-            exec:
-              command:
-                - date
-            failureThreshold: {{ .Values.mongo.livenessProbeFailureThreshold }}
-            initialDelaySeconds: {{ .Values.mongo.livenessProbeDelaySeconds }}
-            periodSeconds: {{ .Values.mongo.livenessProbePeriodSeconds }}
-            timeoutSeconds: {{ .Values.mongo.livenessProbeTimeoutSeconds }}
-          readinessProbe:
-            exec:
-              command:
-                - date
-            failureThreshold: {{ .Values.mongo.readinessProbeFailureThreshold }}
-            initialDelaySeconds: {{ .Values.mongo.readinessProbeDelaySeconds }}
-            periodSeconds: {{ .Values.mongo.readinessProbePeriodSeconds }}
-            timeoutSeconds: {{ .Values.mongo.readinessProbeTimeoutSeconds }}
         - name: mongo-data2
           image: {{ .Values.docker_registry_prefix }}/mongo:1.0.176-ubi8
           command: ["/bin/bash"]
@@ -168,13 +139,6 @@ spec:
           ports:
             - containerPort: 27017
               protocol: TCP
-          resources:
-            limits:
-              cpu: "{{ .Values.mongo.cpuLimit }}"
-              memory: "{{ .Values.mongo.memoryLimit }}"
-            requests:
-              cpu: "{{ .Values.mongo.cpuRequestLimit }}"
-              memory: "{{ .Values.mongo.memoryRequestLimit }}"
           env:
             - name: ENABLE_SSL
               value: "true"
@@ -209,26 +173,11 @@ spec:
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
           imagePullPolicy: IfNotPresent
-          livenessProbe:
-            tcpSocket:
-              port: 27017
-            failureThreshold: {{ .Values.mongo.livenessProbeFailureThreshold }}
-            initialDelaySeconds: {{ .Values.mongo.livenessProbeDelaySeconds }}
-            periodSeconds: {{ .Values.mongo.livenessProbePeriodSeconds }}
-            timeoutSeconds: {{ .Values.mongo.livenessProbeTimeoutSeconds }}
-          readinessProbe:
-            exec:
-              command:
-                - date
-            failureThreshold: {{ .Values.mongo.readinessProbeFailureThreshold }}
-            initialDelaySeconds: {{ .Values.mongo.readinessProbeDelaySeconds }}
-            periodSeconds: {{ .Values.mongo.readinessProbePeriodSeconds }}
-            timeoutSeconds: {{ .Values.mongo.readinessProbeTimeoutSeconds }}
       hostNetwork: false
       hostIPC: false
       hostPID: false
       restartPolicy: Always
-      serviceAccountName: default
+      serviceAccountName: {{ .Values.serviceAccountName }}
       terminationGracePeriodSeconds: 30
       dnsPolicy: ClusterFirst
       schedulerName: {{ .Values.persistence.podScheduler }}

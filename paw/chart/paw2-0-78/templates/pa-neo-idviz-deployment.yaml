@@ -10,7 +10,8 @@ metadata:
     name: neo-idviz{{ .Values.instanceIdWithinNamespace }}  
     release: {{ .Release.Name }}
   name: neo-idviz{{ .Values.instanceIdWithinNamespace }}
-  namespace: {{ .Release.Namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: “300"
 spec:
   replicas: {{ .Values.neoIdviz.replicas }}
   selector:
@@ -32,7 +33,7 @@ spec:
         helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
         name: neo-idviz{{ .Values.instanceIdWithinNamespace }}
         release: {{ .Release.Name }}
-        version: "9.0.534-ubi8"
+        version: "9.0.526-ubi8"
         pa-cacerts-version: {{ .Values.secrets.cacertVersion }}
         pa-java-truststore-version: {{ .Values.secrets.javaTruststoreVersion }}
         pa-tls-version: {{ .Values.secrets.tlsCertVersion }}
@@ -84,13 +85,6 @@ spec:
            - name: TRUST_STORE_PASSWORD
              value: "/run/secrets/paw/java-truststore-credential/credential"
           imagePullPolicy: IfNotPresent
-          resources:
-            limits:
-              cpu: {{ .Values.secrets.cpuLimit }}
-              memory: {{ .Values.secrets.memoryLimit }}
-            requests:
-              cpu: {{ .Values.secrets.cpuRequestLimit }}
-              memory: {{ .Values.secrets.memoryRequestLimit }}
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:
@@ -126,13 +120,6 @@ spec:
               value: "/run/secrets/paw/java-truststore-credential/credential"
             - name: SecureSessionCookie
               value: "{{ .Values.common.secureSessionCookie }}"
-          resources:
-            limits:
-              cpu: "{{ .Values.neoIdviz.cpuLimit }}"
-              memory: "{{ .Values.neoIdviz.memoryLimit }}"
-            requests:
-              cpu: "{{ .Values.neoIdviz.cpuRequestLimit }}"
-              memory: "{{ .Values.neoIdviz.memoryRequestLimit }}"
           securityContext:
             runAsNonRoot: true
             capabilities:
@@ -149,27 +136,11 @@ spec:
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
           imagePullPolicy: IfNotPresent
-          livenessProbe:
-            httpGet:
-              path: /idvisualizations/health
-              port: 9060
-            failureThreshold: {{ .Values.neoIdviz.livenessProbeFailureThreshold }}
-            initialDelaySeconds: {{ .Values.neoIdviz.livenessProbeDelaySeconds }}
-            periodSeconds: {{ .Values.neoIdviz.livenessProbePeriodSeconds }}
-            timeoutSeconds: {{ .Values.neoIdviz.livenessProbeTimeoutSeconds }}
-          readinessProbe:
-            httpGet:
-              path: /idvisualizations/health
-              port: 9060
-            failureThreshold: {{ .Values.neoIdviz.readinessProbeFailureThreshold }}
-            initialDelaySeconds: {{ .Values.neoIdviz.readinessProbeDelaySeconds }}
-            periodSeconds: {{ .Values.neoIdviz.readinessProbePeriodSeconds }}
-            timeoutSeconds: {{ .Values.neoIdviz.readinessProbeTimeoutSeconds }}
       hostNetwork: false
       hostIPC: false
       hostPID: false
       restartPolicy: Always
-      serviceAccountName: default
+      serviceAccountName: {{ .Values.serviceAccountName }}
       terminationGracePeriodSeconds: 30
       dnsPolicy: ClusterFirst
       schedulerName: default-scheduler

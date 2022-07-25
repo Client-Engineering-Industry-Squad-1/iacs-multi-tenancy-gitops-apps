@@ -10,7 +10,8 @@ metadata:
     name: async-service{{ .Values.instanceIdWithinNamespace }}
     release: {{ .Release.Name }}
   name: async-service{{ .Values.instanceIdWithinNamespace }}
-  namespace: {{ .Release.Namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: “300"
 spec:
   replicas: {{ .Values.asyncService.replicas }}
   selector:
@@ -32,7 +33,7 @@ spec:
         helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
         name: async-service{{ .Values.instanceIdWithinNamespace }}
         release: {{ .Release.Name }}
-        version: "0.0.267-ubi8"
+        version: "0.0.261-ubi8"
         pa-cacerts-version: {{ .Values.secrets.cacertVersion }}
         pa-tls-version: {{ .Values.secrets.tlsCertVersion }}
     spec:
@@ -78,13 +79,6 @@ spec:
            - name: PA_KUBE_TLS_CA_CERT
              value: /run/secrets/paw/tls-cert/{{ .Values.secrets.tlsCaCertName }}
           imagePullPolicy: IfNotPresent
-          resources:
-            limits:
-              cpu: {{ .Values.secrets.cpuLimit }}
-              memory: {{ .Values.secrets.memoryLimit }}
-            requests:
-              cpu: {{ .Values.secrets.cpuRequestLimit }}
-              memory: {{ .Values.secrets.memoryRequestLimit }}
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:
@@ -114,13 +108,6 @@ spec:
               value: "{ \"name\": \"redis-cluster{{ .Values.instanceIdWithinNamespace }}\", \"sentinels\": [{ \"host\": \"sentinel1{{ .Values.instanceIdWithinNamespace }}.{{ .Release.Namespace }}.{{ .Values.common.internalDomainName }}\", \"port\": 26379 }, { \"host\": \"sentinel2{{ .Values.instanceIdWithinNamespace }}.{{ .Release.Namespace }}.{{ .Values.common.internalDomainName }}\", \"port\": 26379 }, { \"host\": \"sentinel3{{ .Values.instanceIdWithinNamespace }}.{{ .Release.Namespace }}.{{ .Values.common.internalDomainName }}\", \"port\": 26379 }], \"tls\": true }"
             - name: SSL_CA_BUNDLE_FILE
               value: "/run/config/cacerts.pem"
-          resources:
-            limits:
-              cpu: "{{ .Values.asyncService.cpuLimit }}"
-              memory: "{{ .Values.asyncService.memoryLimit }}"
-            requests:
-              cpu: "{{ .Values.asyncService.cpuRequestLimit }}"
-              memory: "{{ .Values.asyncService.memoryRequestLimit }}"
           securityContext:
             runAsNonRoot: true
             capabilities:
@@ -135,27 +122,11 @@ spec:
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
           imagePullPolicy: IfNotPresent
-          livenessProbe:
-            httpGet:
-              path: /v1/health
-              port: 9666
-            failureThreshold: {{ .Values.asyncService.livenessProbeFailureThreshold }}
-            initialDelaySeconds: {{ .Values.asyncService.livenessProbeDelaySeconds }}
-            periodSeconds: {{ .Values.asyncService.livenessProbePeriodSeconds }}
-            timeoutSeconds: {{ .Values.asyncService.livenessProbeTimeoutSeconds }}
-          readinessProbe:
-            httpGet:
-              path: /v1/health
-              port: 9666
-            failureThreshold: {{ .Values.asyncService.readinessProbeFailureThreshold }}
-            initialDelaySeconds: {{ .Values.asyncService.readinessProbeDelaySeconds }}
-            periodSeconds: {{ .Values.asyncService.readinessProbePeriodSeconds }}
-            timeoutSeconds: {{ .Values.asyncService.readinessProbeTimeoutSeconds }}
       hostNetwork: false
       hostIPC: false
       hostPID: false
       restartPolicy: Always
-      serviceAccountName: default
+      serviceAccountName: {{ .Values.serviceAccountName }}
       terminationGracePeriodSeconds: 30
       dnsPolicy: ClusterFirst
       schedulerName: default-scheduler
