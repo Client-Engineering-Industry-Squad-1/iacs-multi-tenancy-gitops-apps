@@ -512,7 +512,7 @@ waProxy:
   livenessProbeTimeoutSeconds: 10
   memoryLimit: 3072M
   memoryRequestLimit: 1536M
-  paLoginMode: tm1
+  paLoginMode: cam
   readinessProbeFailureThreshold: 3
   readinessProbeDelaySeconds: 30
   readinessProbePeriodSeconds: 10
