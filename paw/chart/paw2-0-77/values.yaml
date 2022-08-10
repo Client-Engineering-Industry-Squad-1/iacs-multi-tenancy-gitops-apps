@@ -25,7 +25,6 @@ bssInit:
   enableIntentBar: true
   enablePAA: true
   enablePasteSpecial: false
-  enableEmail: false
   memoryLimit: 200M
   memoryRequestLimit: 100M
 cdn:
@@ -35,10 +34,10 @@ cdn:
   memoryRequestLimit: 512M
   replicas: 2
 common:
-  appName: paw
+  appName: dev4
   cpuLimit: 200m
   cpuRequestLimit: 100m
-  ibmCognosServlet: http://ibmcognoshost:9300/p2pd/servlet/dispatch
+  ibmCognosServlet: http://172.16.1.6:9300/p2pd/servlet/dispatch
   internalDomainName: svc.cluster.local
   memoryLimit: 100M
   memoryRequestLimit: 50M
@@ -47,9 +46,6 @@ common:
   tm1APIPort: 
   tm1ApplicationsLocation: http://172.16.1.4:9510
   tm1Location: https://172.16.1.4:5898
-  emailSmtpUrl: 
-  emailFrom: 
-  sendGridApiKey: 
 couchdb:
   cpuLimit: 1000m
   cpuRequestLimit: 250m
@@ -71,7 +67,7 @@ glass:
   memoryRequestLimit: 512M
   replicas: 2
 ingress:
-  host: dev3-pa.apps.vnpgtfyq.centralus.aroapp.io
+  host: dev4-pa.apps.vnpgtfyq.centralus.aroapp.io
   namespaceLabel: ""
 mongo:
   cpuLimit: 1000m
@@ -196,20 +192,20 @@ redis:
   memoryLimit: 100M
   memoryRequestLimit: 50M
 secrets:
-  cacertVersion: MjAyMl8wN18yNV8xOV8yM18wNAoZ
+  cacertVersion: MjAyMl8wN18yOV8xNl8zNF8xNwoZ
   cpuLimit: 1000m
   cpuRequestLimit: 250m
   ingressCertExternal: false
   ingressCertSecretName: pa-ingress-cert
-  ingressCertVersion: MjAyMl8wN18yNV8xOV8yM18wNQoZ
-  javaTruststoreVersion: MjAyMl8wN18yNV8xOV8yM18wNAoZ
+  ingressCertVersion: MjAyMl8wN18yOV8xNl8zNF8xOAoZ
+  javaTruststoreVersion: MjAyMl8wN18yOV8xNl8zNF8xNwoZ
   memoryLimit: 500M
   memoryRequestLimit: 250M
-  pawSecretVersion: MjAyMl8wN18yNV8xOV8yM18wNQoZ
+  pawSecretVersion: MjAyMl8wN18yOV8xNl8zNF8xOAoZ
   tlsCaCertName: ca.crt
   tlsCertExternal: false
   tlsCertSecretName: pa-tls-cert
-  tlsCertVersion: MjAyMl8wN18yNV8xOV8yM18wMwoZ
+  tlsCertVersion: MjAyMl8wN18yOV8xNl8zNF8xNgoZ
   tlsEmptyDirMedium: Memory
   tlsEmptyDirSizeLimit: 131072
 sentinel:
@@ -257,10 +253,10 @@ waProxy:
   emptyDirSizeLimit: 16384
   enableUserImport: true
   enableViewExchange: false
-  ibmCognosGatewayUrl: http://ibmcognoshost:80/ibmcognos/cgi-bin/cognos.cgi
+  ibmCognosGatewayUrl: http://172.16.1.6:80/ibmcognos/cgi-bin/cognos.cgi
   memoryLimit: 3072M
   memoryRequestLimit: 1536M
-  paLoginMode: tm1
+  paLoginMode: cam
   replicas: 2
   sessionTimeout: 60m
   tm1LoginUrl: http://172.16.1.4:52670
