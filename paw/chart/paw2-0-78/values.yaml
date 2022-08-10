@@ -3,44 +3,20 @@ asyncService:
   configKeyspaceEvents: true
   cpuLimit: 1000m
   cpuRequestLimit: 250m
-  livenessProbeFailureThreshold: 3
-  livenessProbeDelaySeconds: 60
-  livenessProbePeriodSeconds: 20
-  livenessProbeTimeoutSeconds: 10
   memoryLimit: 512M
   memoryRequestLimit: 50M
-  readinessProbeFailureThreshold: 3
-  readinessProbeDelaySeconds: 30
-  readinessProbePeriodSeconds: 10
-  readinessProbeTimeoutSeconds: 10
   replicas: 2
 atlas:
   cpuLimit: 1000m
   cpuRequestLimit: 250m
-  livenessProbeFailureThreshold: 3
-  livenessProbeDelaySeconds: 120
-  livenessProbePeriodSeconds: 20
-  livenessProbeTimeoutSeconds: 10
   memoryLimit: 2048M
   memoryRequestLimit: 1024M
-  readinessProbeFailureThreshold: 3
-  readinessProbeDelaySeconds: 120
-  readinessProbePeriodSeconds: 10
-  readinessProbeTimeoutSeconds: 60
   replicas: 2
 bss:
   cpuLimit: 1000m
   cpuRequestLimit: 250m
-  livenessProbeFailureThreshold: 3
-  livenessProbeDelaySeconds: 60
-  livenessProbePeriodSeconds: 20
-  livenessProbeTimeoutSeconds: 10
   memoryLimit: 1532M
   memoryRequestLimit: 766M
-  readinessProbeFailureThreshold: 3
-  readinessProbeDelaySeconds: 60
-  readinessProbePeriodSeconds: 10
-  readinessProbeTimeoutSeconds: 10
   replicas: 2
 bssInit:
   cpuLimit: 1000m
@@ -50,29 +26,13 @@ bssInit:
   enablePAA: true
   enablePasteSpecial: false
   enableEmail: false
-  livenessProbeFailureThreshold: 3
-  livenessProbeDelaySeconds: 60
-  livenessProbePeriodSeconds: 20
-  livenessProbeTimeoutSeconds: 10
   memoryLimit: 200M
   memoryRequestLimit: 100M
-  readinessProbeFailureThreshold: 3
-  readinessProbeDelaySeconds: 30
-  readinessProbePeriodSeconds: 10
-  readinessProbeTimeoutSeconds: 10
 cdn:
   cpuLimit: 1000m
   cpuRequestLimit: 250m
-  livenessProbeFailureThreshold: 3
-  livenessProbeDelaySeconds: 60
-  livenessProbePeriodSeconds: 20
-  livenessProbeTimeoutSeconds: 10
   memoryLimit: 1024M
   memoryRequestLimit: 512M
-  readinessProbeFailureThreshold: 3
-  readinessProbeDelaySeconds: 30
-  readinessProbePeriodSeconds: 10
-  readinessProbeTimeoutSeconds: 10
   replicas: 2
 common:
   appName: paw
@@ -93,46 +53,22 @@ common:
 couchdb:
   cpuLimit: 1000m
   cpuRequestLimit: 250m
-  livenessProbeFailureThreshold: 3
-  livenessProbeDelaySeconds: 60
-  livenessProbePeriodSeconds: 20
-  livenessProbeTimeoutSeconds: 10
   memoryLimit: 400M
   memoryRequestLimit: 200M
-  readinessProbeFailureThreshold: 3
-  readinessProbeDelaySeconds: 30
-  readinessProbePeriodSeconds: 10
-  readinessProbeTimeoutSeconds: 10
 docker_registry_prefix: image-registry.openshift-image-registry.svc:5000/dev
 gateway:
   cpuLimit: 1000m
   cpuRequestLimit: 250m
   emptyDirMedium: Memory
   emptyDirSizeLimit: 16384
-  livenessProbeFailureThreshold: 3
-  livenessProbeDelaySeconds: 60
-  livenessProbePeriodSeconds: 20
-  livenessProbeTimeoutSeconds: 10
   memoryLimit: 1024M
   memoryRequestLimit: 512M
-  readinessProbeFailureThreshold: 3
-  readinessProbeDelaySeconds: 30
-  readinessProbePeriodSeconds: 10
-  readinessProbeTimeoutSeconds: 10
   replicas: 2
 glass:
   cpuLimit: 1000m
   cpuRequestLimit: 250m
-  livenessProbeFailureThreshold: 3
-  livenessProbeDelaySeconds: 60
-  livenessProbePeriodSeconds: 20
-  livenessProbeTimeoutSeconds: 10
   memoryLimit: 1024M
   memoryRequestLimit: 512M
-  readinessProbeFailureThreshold: 3
-  readinessProbeDelaySeconds: 30
-  readinessProbePeriodSeconds: 10
-  readinessProbeTimeoutSeconds: 10
   replicas: 2
 ingress:
   host: dev3-pa.apps.vnpgtfyq.centralus.aroapp.io
@@ -142,48 +78,24 @@ mongo:
   cpuRequestLimit: 250m
   emptyDirMedium: Memory
   emptyDirSizeLimit: 16384
-  livenessProbeFailureThreshold: 3
-  livenessProbeDelaySeconds: 60
-  livenessProbePeriodSeconds: 20
-  livenessProbeTimeoutSeconds: 10
   memoryLimit: 2048M
   memoryRequestLimit: 1024M
   options: --oplogSize 990 --wiredTigerCacheSizeGB 0.5
-  readinessProbeFailureThreshold: 3
-  readinessProbeDelaySeconds: 30
-  readinessProbePeriodSeconds: 10
-  readinessProbeTimeoutSeconds: 10
 monitor:
   adminAgentAPIKey: 
   AdminAgentTimeout: 5
   cpuLimit: 1000m
   cpuRequestLimit: 250m
-  livenessProbeFailureThreshold: 3
-  livenessProbeDelaySeconds: 600
-  livenessProbePeriodSeconds: 20
-  livenessProbeTimeoutSeconds: 10
   memoryLimit: 1532M
   memoryRequestLimit: 766M
-  readinessProbeFailureThreshold: 3
-  readinessProbeDelaySeconds: 30
-  readinessProbePeriodSeconds: 10
-  readinessProbeTimeoutSeconds: 10
   replicas: 2
 mysqlCluster:
   maxConnectErrors: 100
 mysqlData:
   cpuLimit: 1000m
   cpuRequestLimit: 250m
-  livenessProbeFailureThreshold: 3
-  livenessProbeDelaySeconds: 60
-  livenessProbePeriodSeconds: 20
-  livenessProbeTimeoutSeconds: 10
   memoryLimit: 2048M
   memoryRequestLimit: 1024M
-  readinessProbeFailureThreshold: 3
-  readinessProbeDelaySeconds: 30
-  readinessProbePeriodSeconds: 10
-  readinessProbeTimeoutSeconds: 10
 mysqlDataStunnel:
   cpuLimit: 1000m
   cpuRequestLimit: 250m
@@ -194,16 +106,8 @@ mysqlMgmt:
   cpuRequestLimit: 250m
   emptyDirMedium: 
   emptyDirSizeLimit: 1Gi
-  livenessProbeFailureThreshold: 3
-  livenessProbeDelaySeconds: 360
-  livenessProbePeriodSeconds: 20
-  livenessProbeTimeoutSeconds: 10
   memoryLimit: 1024M
   memoryRequestLimit: 512M
-  readinessProbeFailureThreshold: 3
-  readinessProbeDelaySeconds: 30
-  readinessProbePeriodSeconds: 10
-  readinessProbeTimeoutSeconds: 10
 mysqlMgmtStunnel:
   cpuLimit: 1000m
   cpuRequestLimit: 250m
@@ -212,16 +116,8 @@ mysqlMgmtStunnel:
 mysqlServer:
   cpuLimit: 1000m
   cpuRequestLimit: 250m
-  livenessProbeFailureThreshold: 3
-  livenessProbeDelaySeconds: 600
-  livenessProbePeriodSeconds: 20
-  livenessProbeTimeoutSeconds: 10
   memoryLimit: 1024M
   memoryRequestLimit: 512M
-  readinessProbeFailureThreshold: 3
-  readinessProbeDelaySeconds: 30
-  readinessProbePeriodSeconds: 10
-  readinessProbeTimeoutSeconds: 10
 mysqlServerStunnel:
   cpuLimit: 1000m
   cpuRequestLimit: 250m
@@ -231,86 +127,38 @@ instanceIdWithinNamespace:
 neoIdviz:
   cpuLimit: 1000m
   cpuRequestLimit: 250m
-  livenessProbeFailureThreshold: 3
-  livenessProbeDelaySeconds: 60
-  livenessProbePeriodSeconds: 20
-  livenessProbeTimeoutSeconds: 10
   memoryLimit: 1024M
   memoryRequestLimit: 512M
-  readinessProbeFailureThreshold: 3
-  readinessProbeDelaySeconds: 60
-  readinessProbePeriodSeconds: 10
-  readinessProbeTimeoutSeconds: 10
   replicas: 2
 neoProvision:
   cpuLimit: 1000m
   cpuRequestLimit: 250m
-  livenessProbeFailureThreshold: 3
-  livenessProbeDelaySeconds: 60
-  livenessProbePeriodSeconds: 20
-  livenessProbeTimeoutSeconds: 10
   memoryLimit: 2048M
   memoryRequestLimit: 1024M
-  readinessProbeFailureThreshold: 3
-  readinessProbeDelaySeconds: 60
-  readinessProbePeriodSeconds: 10
-  readinessProbeTimeoutSeconds: 10
   replicas: 2
 paContent:
   cpuLimit: 1000m
   cpuRequestLimit: 250m
-  livenessProbeFailureThreshold: 3
-  livenessProbeDelaySeconds: 60
-  livenessProbePeriodSeconds: 20
-  livenessProbeTimeoutSeconds: 10
   memoryLimit: 500M
   memoryRequestLimit: 250M
-  readinessProbeFailureThreshold: 3
-  readinessProbeDelaySeconds: 30
-  readinessProbePeriodSeconds: 10
-  readinessProbeTimeoutSeconds: 10
   replicas: 2
 palmService:
   cpuLimit: 1000m
   cpuRequestLimit: 250m
-  livenessProbeFailureThreshold: 3
-  livenessProbeDelaySeconds: 60
-  livenessProbePeriodSeconds: 20
-  livenessProbeTimeoutSeconds: 10
   memoryLimit: 1024M
   memoryRequestLimit: 512M
-  readinessProbeFailureThreshold: 3
-  readinessProbeDelaySeconds: 30
-  readinessProbePeriodSeconds: 10
-  readinessProbeTimeoutSeconds: 10
   replicas: 2
 paPredict:
   cpuLimit: 1000m
   cpuRequestLimit: 250m
-  livenessProbeFailureThreshold: 3
-  livenessProbeDelaySeconds: 60
-  livenessProbePeriodSeconds: 20
-  livenessProbeTimeoutSeconds: 10
   memoryLimit: 1532M
   memoryRequestLimit: 766M
-  readinessProbeFailureThreshold: 3
-  readinessProbeDelaySeconds: 60
-  readinessProbePeriodSeconds: 10
-  readinessProbeTimeoutSeconds: 10
   replicas: 2
 pawUiApi:
   cpuLimit: 1000m
   cpuRequestLimit: 250m
-  livenessProbeFailureThreshold: 3
-  livenessProbeDelaySeconds: 60
-  livenessProbePeriodSeconds: 20
-  livenessProbeTimeoutSeconds: 10
   memoryLimit: 300M
   memoryRequestLimit: 150M
-  readinessProbeFailureThreshold: 3
-  readinessProbeDelaySeconds: 30
-  readinessProbePeriodSeconds: 10
-  readinessProbeTimeoutSeconds: 10
   replicas: 2
 persistence:
   class: managed-premium
@@ -320,73 +168,33 @@ persistence:
 planService:
   cpuLimit: 1000m
   cpuRequestLimit: 250m
-  livenessProbeFailureThreshold: 3
-  livenessProbeDelaySeconds: 60
-  livenessProbePeriodSeconds: 20
-  livenessProbeTimeoutSeconds: 10
   memoryLimit: 1532M
   memoryRequestLimit: 766M
-  readinessProbeFailureThreshold: 3
-  readinessProbeDelaySeconds: 60
-  readinessProbePeriodSeconds: 10
-  readinessProbeTimeoutSeconds: 10
   replicas: 2
 prismApp:
   cpuLimit: 1000m
   cpuRequestLimit: 250m
-  livenessProbeFailureThreshold: 3
-  livenessProbeDelaySeconds: 60
-  livenessProbePeriodSeconds: 20
-  livenessProbeTimeoutSeconds: 10
   memoryLimit: 300M
   memoryRequestLimit: 150M
-  readinessProbeFailureThreshold: 3
-  readinessProbeDelaySeconds: 60
-  readinessProbePeriodSeconds: 10
-  readinessProbeTimeoutSeconds: 10
   replicas: 2
 prismPlatform:
   cpuLimit: 1000m
   cpuRequestLimit: 250m
-  livenessProbeFailureThreshold: 3
-  livenessProbeDelaySeconds: 600
-  livenessProbePeriodSeconds: 20
-  livenessProbeTimeoutSeconds: 10
   memoryLimit: 3072M
   memoryRequestLimit: 1536M
   jvmArgs: -Xmx4096m -Xms512m
-  readinessProbeFailureThreshold: 3
-  readinessProbeDelaySeconds: 60
-  readinessProbePeriodSeconds: 10
-  readinessProbeTimeoutSeconds: 10
   replicas: 2
 prismProxy:
   cpuLimit: 1000m
   cpuRequestLimit: 250m
-  livenessProbeFailureThreshold: 3
-  livenessProbeDelaySeconds: 60
-  livenessProbePeriodSeconds: 20
-  livenessProbeTimeoutSeconds: 10
   memoryLimit: 1024M
   memoryRequestLimit: 512M
-  readinessProbeFailureThreshold: 3
-  readinessProbeDelaySeconds: 30
-  readinessProbePeriodSeconds: 10
-  readinessProbeTimeoutSeconds: 10
   replicas: 2
 redis:
   cpuLimit: 1000m
   cpuRequestLimit: 250m
-  livenessProbeFailureThreshold: 3
-  livenessProbeDelaySeconds: 60
-  livenessProbePeriodSeconds: 20
-  livenessProbeTimeoutSeconds: 10
   memoryLimit: 100M
   memoryRequestLimit: 50M
-  readinessProbeFailureThreshold: 3
-  readinessProbeDelaySeconds: 60
-  readinessProbePeriodSeconds: 10
-  readinessProbeTimeoutSeconds: 10
 secrets:
   cacertVersion: MjAyMl8wN18yNV8xOV8yM18wNAoZ
   cpuLimit: 1000m
@@ -395,17 +203,9 @@ secrets:
   ingressCertSecretName: pa-ingress-cert
   ingressCertVersion: MjAyMl8wN18yNV8xOV8yM18wNQoZ
   javaTruststoreVersion: MjAyMl8wN18yNV8xOV8yM18wNAoZ
-  livenessProbeFailureThreshold: 3
-  livenessProbeDelaySeconds: 60
-  livenessProbePeriodSeconds: 20
-  livenessProbeTimeoutSeconds: 10
   memoryLimit: 500M
   memoryRequestLimit: 250M
   pawSecretVersion: MjAyMl8wN18yNV8xOV8yM18wNQoZ
-  readinessProbeFailureThreshold: 3
-  readinessProbeDelaySeconds: 30
-  readinessProbePeriodSeconds: 10
-  readinessProbeTimeoutSeconds: 10
   tlsCaCertName: ca.crt
   tlsCertExternal: false
   tlsCertSecretName: pa-tls-cert
@@ -415,85 +215,37 @@ secrets:
 sentinel:
   cpuLimit: 1000m
   cpuRequestLimit: 250m
-  livenessProbeFailureThreshold: 3
-  livenessProbeDelaySeconds: 60
-  livenessProbePeriodSeconds: 20
-  livenessProbeTimeoutSeconds: 10
   memoryLimit: 100M
   memoryRequestLimit: 50M
-  readinessProbeFailureThreshold: 3
-  readinessProbeDelaySeconds: 30
-  readinessProbePeriodSeconds: 10
-  readinessProbeTimeoutSeconds: 10
 shareApp:
   cpuLimit: 1000m
   cpuRequestLimit: 250m
-  livenessProbeFailureThreshold: 3
-  livenessProbeDelaySeconds: 60
-  livenessProbePeriodSeconds: 20
-  livenessProbeTimeoutSeconds: 10
   memoryLimit: 500M
   memoryRequestLimit: 250M
-  readinessProbeFailureThreshold: 3
-  readinessProbeDelaySeconds: 30
-  readinessProbePeriodSeconds: 10
-  readinessProbeTimeoutSeconds: 10
   replicas: 2
 sharePlatform:
   cpuLimit: 1000m
   cpuRequestLimit: 250m
-  livenessProbeFailureThreshold: 3
-  livenessProbeDelaySeconds: 600
-  livenessProbePeriodSeconds: 20
-  livenessProbeTimeoutSeconds: 10
   memoryLimit: 2048M
   memoryRequestLimit: 1024M
-  readinessProbeFailureThreshold: 3
-  readinessProbeDelaySeconds: 30
-  readinessProbePeriodSeconds: 10
-  readinessProbeTimeoutSeconds: 10
   replicas: 2
 shareProxy:
   cpuLimit: 1000m
   cpuRequestLimit: 250m
-  livenessProbeFailureThreshold: 3
-  livenessProbeDelaySeconds: 60
-  livenessProbePeriodSeconds: 20
-  livenessProbeTimeoutSeconds: 10
   memoryLimit: 1024M
   memoryRequestLimit: 512M
-  readinessProbeFailureThreshold: 3
-  readinessProbeDelaySeconds: 30
-  readinessProbePeriodSeconds: 10
-  readinessProbeTimeoutSeconds: 10
   replicas: 2
 tm1proxy:
   cpuLimit: 1000m
   cpuRequestLimit: 250m
-  livenessProbeFailureThreshold: 3
-  livenessProbeDelaySeconds: 60
-  livenessProbePeriodSeconds: 20
-  livenessProbeTimeoutSeconds: 10
   memoryLimit: 100M
   memoryRequestLimit: 50M
-  readinessProbeFailureThreshold: 3
-  readinessProbeDelaySeconds: 30
-  readinessProbePeriodSeconds: 10
-  readinessProbeTimeoutSeconds: 10
   replicas: 2
 userAdmin:
   cpuLimit: 1000m
   cpuRequestLimit: 250m
-  livenessProbeFailureThreshold: 3
-  livenessProbeDelaySeconds: 60
-  livenessProbePeriodSeconds: 20
-  livenessProbeTimeoutSeconds: 10
   memoryLimit: 512M
   memoryRequestLimit: 256M
-  readinessProbeFailureThreshold: 3
-  readinessProbeDelaySeconds: 30
-  readinessProbePeriodSeconds: 10
-  readinessProbeTimeoutSeconds: 10
   replicas: 2
 waProxy:
   apiAllowOrigins: 
@@ -506,19 +258,11 @@ waProxy:
   enableUserImport: true
   enableViewExchange: false
   ibmCognosGatewayUrl: http://ibmcognoshost:80/ibmcognos/cgi-bin/cognos.cgi
-  livenessProbeFailureThreshold: 3
-  livenessProbeDelaySeconds: 60
-  livenessProbePeriodSeconds: 20
-  livenessProbeTimeoutSeconds: 10
   memoryLimit: 3072M
   memoryRequestLimit: 1536M
   paLoginMode: tm1
-  readinessProbeFailureThreshold: 3
-  readinessProbeDelaySeconds: 30
-  readinessProbePeriodSeconds: 10
-  readinessProbeTimeoutSeconds: 10
   replicas: 2
   sessionTimeout: 60m
   tm1LoginUrl: http://172.16.1.4:52670
   xFrameOptions: sameorigin
-
+serviceAccountName: default
