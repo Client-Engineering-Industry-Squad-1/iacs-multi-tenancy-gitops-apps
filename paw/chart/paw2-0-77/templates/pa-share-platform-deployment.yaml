@@ -72,9 +72,6 @@ spec:
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
           imagePullPolicy: IfNotPresent
-            httpGet:
-              path: /healthcheck
-              port: 9110
       hostNetwork: false
       hostIPC: false
       hostPID: false
