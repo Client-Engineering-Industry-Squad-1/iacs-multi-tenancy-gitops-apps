@@ -72,29 +72,6 @@ spec:
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
           imagePullPolicy: IfNotPresent
-          livenessProbe:
-            httpGet:
-              path: /geo/health-live
-              port: 9076
-            failureThreshold: {{ .Values.atlas.livenessProbeFailureThreshold }}
-            periodSeconds: {{ .Values.atlas.livenessProbePeriodSeconds }}
-            timeoutSeconds: {{ .Values.atlas.livenessProbeTimeoutSeconds }}
-          readinessProbe:
-            httpGet:
-              path: /geo/health-ready
-              port: 9076
-            failureThreshold: {{ .Values.atlas.readinessProbeFailureThreshold }}
-            initialDelaySeconds: {{ .Values.atlas.readinessProbeDelaySeconds }}
-            periodSeconds: {{ .Values.atlas.readinessProbePeriodSeconds }}
-            timeoutSeconds: {{ .Values.atlas.readinessProbeTimeoutSeconds }}
-          startupProbe:
-            httpGet:
-              path: /geo/health-ready
-              port: 9076
-            failureThreshold: {{ .Values.atlas.readinessProbeFailureThreshold }}
-            initialDelaySeconds: {{ .Values.atlas.readinessProbeDelaySeconds }}
-            periodSeconds: {{ .Values.atlas.readinessProbePeriodSeconds }}
-            timeoutSeconds: {{ .Values.atlas.readinessProbeTimeoutSeconds }}
       hostNetwork: false
       hostIPC: false
       hostPID: false

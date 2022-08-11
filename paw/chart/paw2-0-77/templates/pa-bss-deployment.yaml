@@ -165,22 +165,6 @@ spec:
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
           imagePullPolicy: IfNotPresent
-          livenessProbe:
-            httpGet:
-              path: /admin/health
-              port: 8082
-            failureThreshold: {{ .Values.bss.livenessProbeFailureThreshold }}
-            initialDelaySeconds: {{ .Values.bss.livenessProbeDelaySeconds }}
-            periodSeconds: {{ .Values.bss.livenessProbePeriodSeconds }}
-            timeoutSeconds: {{ .Values.bss.livenessProbeTimeoutSeconds }}
-          readinessProbe:
-            httpGet:
-              path: /admin/health
-              port: 8082
-            failureThreshold: {{ .Values.bss.readinessProbeFailureThreshold }}
-            initialDelaySeconds: {{ .Values.bss.readinessProbeDelaySeconds }}
-            periodSeconds: {{ .Values.bss.readinessProbePeriodSeconds }}
-            timeoutSeconds: {{ .Values.bss.readinessProbeTimeoutSeconds }}
       hostNetwork: false
       hostIPC: false
       hostPID: false

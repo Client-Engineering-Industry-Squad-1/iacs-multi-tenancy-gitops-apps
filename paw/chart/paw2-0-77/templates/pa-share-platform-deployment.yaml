@@ -72,19 +72,6 @@ spec:
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
           imagePullPolicy: IfNotPresent
-          livenessProbe:
-            httpGet:
-              path: /healthcheck
-              port: 9110
-            failureThreshold: {{ .Values.sharePlatform.livenessProbeFailureThreshold }}
-            initialDelaySeconds: {{ .Values.sharePlatform.livenessProbeDelaySeconds }}
-            periodSeconds: {{ .Values.sharePlatform.livenessProbePeriodSeconds }}
-            timeoutSeconds: {{ .Values.sharePlatform.livenessProbeTimeoutSeconds }}
-          readinessProbe:
-            failureThreshold: {{ .Values.sharePlatform.readinessProbeFailureThreshold }}
-            initialDelaySeconds: {{ .Values.sharePlatform.readinessProbeDelaySeconds }}
-            periodSeconds: {{ .Values.sharePlatform.readinessProbePeriodSeconds }}
-            timeoutSeconds: {{ .Values.sharePlatform.readinessProbeTimeoutSeconds }}
             httpGet:
               path: /healthcheck
               port: 9110

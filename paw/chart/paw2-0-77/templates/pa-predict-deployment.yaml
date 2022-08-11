@@ -124,22 +124,6 @@ spec:
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
           imagePullPolicy: IfNotPresent
-          livenessProbe:
-            httpGet:
-              path: /healthcheck
-              port: 9610
-            failureThreshold: {{ .Values.paPredict.livenessProbeFailureThreshold }}
-            initialDelaySeconds: {{ .Values.paPredict.livenessProbeDelaySeconds }}
-            periodSeconds: {{ .Values.paPredict.livenessProbePeriodSeconds }}
-            timeoutSeconds: {{ .Values.paPredict.livenessProbeTimeoutSeconds }}
-          readinessProbe:
-            httpGet:
-              path: /healthcheck
-              port: 9610
-            failureThreshold: {{ .Values.paPredict.readinessProbeFailureThreshold }}
-            initialDelaySeconds: {{ .Values.paPredict.readinessProbeDelaySeconds }}
-            periodSeconds: {{ .Values.paPredict.readinessProbePeriodSeconds }}
-            timeoutSeconds: {{ .Values.paPredict.readinessProbeTimeoutSeconds }}
       hostNetwork: false
       hostIPC: false
       hostPID: false

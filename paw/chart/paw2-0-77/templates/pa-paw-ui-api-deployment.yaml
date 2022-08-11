@@ -72,22 +72,6 @@ spec:
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
           imagePullPolicy: IfNotPresent
-          livenessProbe:
-            httpGet:
-              path: /health.xml
-              port: 3000
-            failureThreshold: {{ .Values.pawUiApi.livenessProbeFailureThreshold }}
-            initialDelaySeconds: {{ .Values.pawUiApi.livenessProbeDelaySeconds }}
-            periodSeconds: {{ .Values.pawUiApi.livenessProbePeriodSeconds }}
-            timeoutSeconds: {{ .Values.pawUiApi.livenessProbeTimeoutSeconds }}
-          readinessProbe:
-            httpGet:
-              path: /health.xml
-              port: 3000
-            failureThreshold: {{ .Values.pawUiApi.readinessProbeFailureThreshold }}
-            initialDelaySeconds: {{ .Values.pawUiApi.readinessProbeDelaySeconds }}
-            periodSeconds: {{ .Values.pawUiApi.readinessProbePeriodSeconds }}
-            timeoutSeconds: {{ .Values.pawUiApi.readinessProbeTimeoutSeconds }}
       hostNetwork: false
       hostIPC: false
       hostPID: false

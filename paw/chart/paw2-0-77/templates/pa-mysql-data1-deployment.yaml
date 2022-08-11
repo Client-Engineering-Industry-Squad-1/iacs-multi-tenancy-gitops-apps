@@ -121,22 +121,6 @@ spec:
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
           imagePullPolicy: IfNotPresent
-          livenessProbe:
-            httpGet:
-              path: /ping
-              port: 31001
-            failureThreshold: {{ .Values.mysqlData.livenessProbeFailureThreshold }}
-            initialDelaySeconds: {{ .Values.mysqlData.livenessProbeDelaySeconds }}
-            periodSeconds: {{ .Values.mysqlData.livenessProbePeriodSeconds }}
-            timeoutSeconds: {{ .Values.mysqlData.livenessProbeTimeoutSeconds }}
-          readinessProbe:
-            httpGet:
-              path: /ping
-              port: 31001
-            failureThreshold: {{ .Values.mysqlData.readinessProbeFailureThreshold }}
-            initialDelaySeconds: {{ .Values.mysqlData.readinessProbeDelaySeconds }}
-            periodSeconds: {{ .Values.mysqlData.readinessProbePeriodSeconds }}
-            timeoutSeconds: {{ .Values.mysqlData.readinessProbeTimeoutSeconds }}
         - name: mysql-data1-stunnel
           image: {{ .Values.docker_registry_prefix }}/mysql-cluster:2.0.170-ubi8
           command: [ "/tools/start-stunnel.sh" ]
@@ -189,22 +173,6 @@ spec:
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
           imagePullPolicy: IfNotPresent
-          livenessProbe:
-            exec:
-              command:
-                - date
-            failureThreshold: {{ .Values.mysqlData.livenessProbeFailureThreshold }}
-            initialDelaySeconds: {{ .Values.mysqlData.livenessProbeDelaySeconds }}
-            periodSeconds: {{ .Values.mysqlData.livenessProbePeriodSeconds }}
-            timeoutSeconds: {{ .Values.mysqlData.livenessProbeTimeoutSeconds }}
-          readinessProbe:
-            exec:
-              command:
-                - date
-            failureThreshold: {{ .Values.mysqlData.readinessProbeFailureThreshold }}
-            initialDelaySeconds: {{ .Values.mysqlData.readinessProbeDelaySeconds }}
-            periodSeconds: {{ .Values.mysqlData.readinessProbePeriodSeconds }}
-            timeoutSeconds: {{ .Values.mysqlData.readinessProbeTimeoutSeconds }}
         - name: mysql-data1
           image: {{ .Values.docker_registry_prefix }}/mysql-cluster:2.0.170-ubi8
           args: ["ndbd"]          
@@ -240,22 +208,6 @@ spec:
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
           imagePullPolicy: IfNotPresent
-          livenessProbe:
-            exec:
-              command:
-                - date
-            failureThreshold: {{ .Values.mysqlData.livenessProbeFailureThreshold }}
-            initialDelaySeconds: {{ .Values.mysqlData.livenessProbeDelaySeconds }}
-            periodSeconds: {{ .Values.mysqlData.livenessProbePeriodSeconds }}
-            timeoutSeconds: {{ .Values.mysqlData.livenessProbeTimeoutSeconds }}
-          readinessProbe:
-            exec:
-              command:
-                - date
-            failureThreshold: {{ .Values.mysqlData.readinessProbeFailureThreshold }}
-            initialDelaySeconds: {{ .Values.mysqlData.readinessProbeDelaySeconds }}
-            periodSeconds: {{ .Values.mysqlData.readinessProbePeriodSeconds }}
-            timeoutSeconds: {{ .Values.mysqlData.readinessProbeTimeoutSeconds }}
       hostNetwork: false
       hostIPC: false
       hostPID: false

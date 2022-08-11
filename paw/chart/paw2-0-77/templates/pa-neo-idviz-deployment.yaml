@@ -136,22 +136,6 @@ spec:
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
           imagePullPolicy: IfNotPresent
-          livenessProbe:
-            httpGet:
-              path: /idvisualizations/health
-              port: 9060
-            failureThreshold: {{ .Values.neoIdviz.livenessProbeFailureThreshold }}
-            initialDelaySeconds: {{ .Values.neoIdviz.livenessProbeDelaySeconds }}
-            periodSeconds: {{ .Values.neoIdviz.livenessProbePeriodSeconds }}
-            timeoutSeconds: {{ .Values.neoIdviz.livenessProbeTimeoutSeconds }}
-          readinessProbe:
-            httpGet:
-              path: /idvisualizations/health
-              port: 9060
-            failureThreshold: {{ .Values.neoIdviz.readinessProbeFailureThreshold }}
-            initialDelaySeconds: {{ .Values.neoIdviz.readinessProbeDelaySeconds }}
-            periodSeconds: {{ .Values.neoIdviz.readinessProbePeriodSeconds }}
-            timeoutSeconds: {{ .Values.neoIdviz.readinessProbeTimeoutSeconds }}
       hostNetwork: false
       hostIPC: false
       hostPID: false

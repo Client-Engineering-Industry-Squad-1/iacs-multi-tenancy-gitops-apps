@@ -148,22 +148,6 @@ spec:
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
           imagePullPolicy: IfNotPresent
-          livenessProbe:
-            httpGet:
-              path: /pakate/v0/servers/healthcheck
-              port: 9082
-            failureThreshold: {{ .Values.monitor.livenessProbeFailureThreshold }}
-            initialDelaySeconds: {{ .Values.monitor.livenessProbeDelaySeconds }}
-            periodSeconds: {{ .Values.monitor.livenessProbePeriodSeconds }}
-            timeoutSeconds: {{ .Values.monitor.livenessProbeTimeoutSeconds }}
-          readinessProbe:
-            httpGet:
-              path: /pakate/v0/servers/healthcheck
-              port: 9082
-            failureThreshold: {{ .Values.monitor.readinessProbeFailureThreshold }}
-            initialDelaySeconds: {{ .Values.monitor.readinessProbeDelaySeconds }}
-            periodSeconds: {{ .Values.monitor.readinessProbePeriodSeconds }}
-            timeoutSeconds: {{ .Values.monitor.readinessProbeTimeoutSeconds }}
       hostNetwork: false
       hostIPC: false
       hostPID: false

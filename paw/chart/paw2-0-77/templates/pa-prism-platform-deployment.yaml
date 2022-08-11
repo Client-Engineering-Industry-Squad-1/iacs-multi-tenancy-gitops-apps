@@ -140,22 +140,6 @@ spec:
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
           imagePullPolicy: IfNotPresent
-          livenessProbe:
-            httpGet:
-              path: /healthcheck
-              port: 9080
-            failureThreshold: {{ .Values.prismPlatform.livenessProbeFailureThreshold }}
-            initialDelaySeconds: {{ .Values.prismPlatform.livenessProbeDelaySeconds }}
-            periodSeconds: {{ .Values.prismPlatform.livenessProbePeriodSeconds }}
-            timeoutSeconds: {{ .Values.prismPlatform.livenessProbeTimeoutSeconds }}
-          readinessProbe:
-            httpGet:
-              path: /healthcheck
-              port: 9080
-            failureThreshold: {{ .Values.prismPlatform.readinessProbeFailureThreshold }}
-            initialDelaySeconds: {{ .Values.prismPlatform.readinessProbeDelaySeconds }}
-            periodSeconds: {{ .Values.prismPlatform.readinessProbePeriodSeconds }}
-            timeoutSeconds: {{ .Values.prismPlatform.readinessProbeTimeoutSeconds }}
       hostNetwork: false
       hostIPC: false
       hostPID: false

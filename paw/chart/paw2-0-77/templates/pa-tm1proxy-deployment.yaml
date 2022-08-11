@@ -124,22 +124,6 @@ spec:
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
           imagePullPolicy: IfNotPresent
-          livenessProbe:
-            httpGet:
-              path: /healthcheck
-              port: 1339
-            failureThreshold: {{ .Values.tm1proxy.livenessProbeFailureThreshold }}
-            initialDelaySeconds: {{ .Values.tm1proxy.livenessProbeDelaySeconds }}
-            periodSeconds: {{ .Values.tm1proxy.livenessProbePeriodSeconds }}
-            timeoutSeconds: {{ .Values.tm1proxy.livenessProbeTimeoutSeconds }}
-          readinessProbe:
-            httpGet:
-              path: /healthcheck
-              port: 1339
-            failureThreshold: {{ .Values.tm1proxy.readinessProbeFailureThreshold }}
-            initialDelaySeconds: {{ .Values.tm1proxy.readinessProbeDelaySeconds }}
-            periodSeconds: {{ .Values.tm1proxy.readinessProbePeriodSeconds }}
-            timeoutSeconds: {{ .Values.tm1proxy.readinessProbeTimeoutSeconds }}
       hostNetwork: false
       hostIPC: false
       hostPID: false

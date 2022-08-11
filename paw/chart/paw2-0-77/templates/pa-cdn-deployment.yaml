@@ -72,22 +72,6 @@ spec:
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
           imagePullPolicy: IfNotPresent
-          livenessProbe:
-            httpGet:
-              path: /healthcheck
-              port: 8080
-            failureThreshold: {{ .Values.cdn.livenessProbeFailureThreshold }}
-            initialDelaySeconds:  {{ .Values.cdn.livenessProbeDelaySeconds }}
-            periodSeconds: {{ .Values.cdn.livenessProbePeriodSeconds }}
-            timeoutSeconds: {{ .Values.cdn.livenessProbeTimeoutSeconds }}
-          readinessProbe:
-            httpGet:
-              path: /healthcheck
-              port: 8080
-            failureThreshold: {{ .Values.cdn.readinessProbeFailureThreshold }}
-            initialDelaySeconds: {{ .Values.cdn.readinessProbeDelaySeconds }}
-            periodSeconds: {{ .Values.cdn.readinessProbePeriodSeconds }}
-            timeoutSeconds: {{ .Values.cdn.readinessProbeTimeoutSeconds }}
       hostNetwork: false
       hostIPC: false
       hostPID: false

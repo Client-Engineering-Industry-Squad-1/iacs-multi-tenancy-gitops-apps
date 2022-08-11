@@ -84,22 +84,6 @@ spec:
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
           imagePullPolicy: IfNotPresent
-          livenessProbe:
-            httpGet:
-              path: /proxyhealth
-              port: 9090
-            failureThreshold: {{ .Values.prismProxy.livenessProbeFailureThreshold }}
-            initialDelaySeconds: {{ .Values.prismProxy.livenessProbeDelaySeconds }}
-            periodSeconds: {{ .Values.prismProxy.livenessProbePeriodSeconds }}
-            timeoutSeconds: {{ .Values.prismProxy.livenessProbeTimeoutSeconds }}
-          readinessProbe:
-            httpGet:
-              path: /proxyhealth
-              port: 9090
-            failureThreshold: {{ .Values.prismProxy.readinessProbeFailureThreshold }}
-            initialDelaySeconds: {{ .Values.prismProxy.readinessProbeDelaySeconds }}
-            periodSeconds: {{ .Values.prismProxy.readinessProbePeriodSeconds }}
-            timeoutSeconds: {{ .Values.prismProxy.readinessProbeTimeoutSeconds }}
       hostNetwork: false
       hostIPC: false
       hostPID: false

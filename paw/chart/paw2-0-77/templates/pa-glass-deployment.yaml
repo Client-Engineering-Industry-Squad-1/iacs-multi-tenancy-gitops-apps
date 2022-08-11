@@ -72,22 +72,6 @@ spec:
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
           imagePullPolicy: IfNotPresent
-          livenessProbe:
-            httpGet:
-              path: /bi/health
-              port: 9080
-            failureThreshold: {{ .Values.glass.livenessProbeFailureThreshold }}
-            initialDelaySeconds: {{ .Values.glass.livenessProbePeriodSeconds }}
-            periodSeconds: {{ .Values.glass.livenessProbePeriodSeconds }}
-            timeoutSeconds: {{ .Values.glass.livenessProbeTimeoutSeconds }}
-          readinessProbe:
-            httpGet:
-              path: /bi/health
-              port: 9080
-            failureThreshold: {{ .Values.glass.readinessProbeFailureThreshold }}
-            initialDelaySeconds: {{ .Values.glass.readinessProbeDelaySeconds }}
-            periodSeconds: {{ .Values.glass.readinessProbePeriodSeconds }}
-            timeoutSeconds: {{ .Values.glass.readinessProbeTimeoutSeconds }}
       hostNetwork: false
       hostIPC: false
       hostPID: false

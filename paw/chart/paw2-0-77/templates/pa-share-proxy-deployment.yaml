@@ -78,22 +78,6 @@ spec:
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
           imagePullPolicy: IfNotPresent
-          livenessProbe:
-            httpGet:
-              path: /proxyhealth
-              port: 9070
-            failureThreshold: {{ .Values.shareProxy.livenessProbeFailureThreshold }}
-            initialDelaySeconds: {{ .Values.shareProxy.livenessProbeDelaySeconds }}
-            periodSeconds: {{ .Values.shareProxy.livenessProbePeriodSeconds }}
-            timeoutSeconds: {{ .Values.shareProxy.livenessProbeTimeoutSeconds }}
-          readinessProbe:
-            httpGet:
-              path: /proxyhealth
-              port: 9070
-            failureThreshold: {{ .Values.shareProxy.readinessProbeFailureThreshold }}
-            initialDelaySeconds: {{ .Values.shareProxy.readinessProbeDelaySeconds }}
-            periodSeconds: {{ .Values.shareProxy.readinessProbePeriodSeconds }}
-            timeoutSeconds: {{ .Values.shareProxy.readinessProbeTimeoutSeconds }}
       hostNetwork: false
       hostIPC: false
       hostPID: false

@@ -76,22 +76,6 @@ spec:
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
           imagePullPolicy: IfNotPresent
-          livenessProbe:
-            httpGet:
-              path: /proxyhealth
-              port: 8000
-            failureThreshold: {{ .Values.gateway.livenessProbeFailureThreshold }}
-            initialDelaySeconds: {{ .Values.gateway.livenessProbeDelaySeconds }}
-            periodSeconds: {{ .Values.gateway.livenessProbePeriodSeconds }}
-            timeoutSeconds: {{ .Values.gateway.livenessProbeTimeoutSeconds }}
-          readinessProbe:
-            httpGet:
-              path: /proxyhealth
-              port: 8000
-            failureThreshold: {{ .Values.gateway.readinessProbeFailureThreshold }}
-            initialDelaySeconds: {{ .Values.gateway.readinessProbeDelaySeconds }}
-            periodSeconds: {{ .Values.gateway.readinessProbePeriodSeconds }}
-            timeoutSeconds: {{ .Values.gateway.readinessProbeTimeoutSeconds }}
       hostNetwork: false
       hostIPC: false
       hostPID: false
