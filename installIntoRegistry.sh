@@ -6,78 +6,76 @@
 # Although we hope to run this rootless
 ###############################################################################
 
-cd ~/DownloadDirector       # (or wherever you downloaded PAW package)
+#unzip <Zip File>
 
-unzip ipa_workspace_local_dist_2.0.77.106.zip
+#sudo podman load < <PAW Version>/images/images.tar
 
-sudo podman load < paw_2.0.77/images/images.tar
+sudo oc patch configs.imageregistry.operator.openshift.io/cluster --patch '{"spec":{"defaultRoute":true}}' --type=merge
 
-oc patch configs.imageregistry.operator.openshift.io/cluster --patch '{"spec":{"defaultRoute":true}}' --type=merge
+#REGISTRY_HOST=$(sudo oc get route default-route -n openshift-image-registry --template='{{ .spec.host }}')
 
-REGISTRY_HOST=$(oc get route default-route -n openshift-image-registry --template='{{ .spec.host }}')
+sudo podman login -u kubeadmin -p $(sudo oc whoami -t) --tls-verify=false $REGISTRY_HOST
 
-sudo podman login -u kubeadmin -p $(oc whoami -t) --tls-verify=false $REGISTRY_HOST
+sudo podman tag 127.0.0.1:5000/planninganalytics/pa-glass:${GLASS_VERSION}-ubi8 $REGISTRY_HOST/dev/pa-glass:${GLASS_VERSION}-ubi8
+sudo podman tag 127.0.0.1:5000/planninganalytics/pa-cdn:${CDN_VERSION}-ubi8 $REGISTRY_HOST/dev/pa-cdn:${CDN_VERSION}-ubi8
+sudo podman tag 127.0.0.1:5000/planninganalytics/pa-plan-service:${PA_PLAN_SERVICE_VERSION}-ubi8 $REGISTRY_HOST/dev/pa-plan-service:${PA_PLAN_SERVICE_VERSION}-ubi8
+sudo podman tag 127.0.0.1:5000/planninganalytics/pa-predict-svc:${PA_PREDICT_SVC_VERSION}-ubi8 $REGISTRY_HOST/dev/pa-predict-svc:${PA_PREDICT_SVC_VERSION}-ubi8
+sudo podman tag 127.0.0.1:5000/planninganalytics/async-service:${ASYNC_SERVICE_VERSION}-ubi8 $REGISTRY_HOST/dev/async-service:${ASYNC_SERVICE_VERSION}-ubi8
+sudo podman tag 127.0.0.1:5000/planninganalytics/paw-ui-api:${PAW_UI_API_VERSION}-ubi8 $REGISTRY_HOST/dev/paw-ui-api:${PAW_UI_API_VERSION}-ubi8
+sudo podman tag 127.0.0.1:5000/planninganalytics/prism-proxy:${PRISM_PROXY_VERSION}-ubi8 $REGISTRY_HOST/dev/prism-proxy:${PRISM_PROXY_VERSION}-ubi8
+sudo podman tag 127.0.0.1:5000/planninganalytics/share-app:${SHARE_APP_VERSION}-ubi8 $REGISTRY_HOST/dev/share-app:${SHARE_APP_VERSION}-ubi8
+sudo podman tag 127.0.0.1:5000/planninganalytics/share-proxy:${SHARE_PROXY_VERSION}-ubi8 $REGISTRY_HOST/dev/share-proxy:${SHARE_PROXY_VERSION}-ubi8
+sudo podman tag 127.0.0.1:5000/planninganalytics/pa-gateway:${PA_GATEWAY_VERSION}-ubi8 $REGISTRY_HOST/dev/pa-gateway:${PA_GATEWAY_VERSION}-ubi8
+sudo podman tag 127.0.0.1:5000/planninganalytics/bss:${BSS_VERSION}-ubi8 $REGISTRY_HOST/dev/bss:${BSS_VERSION}-ubi8
+sudo podman tag 127.0.0.1:5000/planninganalytics/wa-proxy:${WA_PROXY_VERSION}-ubi8 $REGISTRY_HOST/dev/wa-proxy:${WA_PROXY_VERSION}-ubi8
+sudo podman tag 127.0.0.1:5000/planninganalytics/tm1proxy:${TM1PROXY_VERSION}-ubi8 $REGISTRY_HOST/dev/tm1proxy:${TM1PROXY_VERSION}-ubi8
+sudo podman tag 127.0.0.1:5000/planninganalytics/palm-service:${PALM_SERVICE_VERSION}-ubi8 $REGISTRY_HOST/dev/palm-service:${PALM_SERVICE_VERSION}-ubi8
+sudo podman tag 127.0.0.1:5000/planninganalytics/neo-provision:${NEO_PROVISION_VERSION}-ubi8 $REGISTRY_HOST/dev/neo-provision:${NEO_PROVISION_VERSION}-ubi8
+sudo podman tag 127.0.0.1:5000/planninganalytics/prism-app:${PRISM_APP_VERSION}-ubi8 $REGISTRY_HOST/dev/prism-app:${PRISM_APP_VERSION}-ubi8
+sudo podman tag 127.0.0.1:5000/planninganalytics/user-admin:${USER_ADMIN_VERSION}-ubi8 $REGISTRY_HOST/dev/user-admin:${USER_ADMIN_VERSION}-ubi8
+sudo podman tag 127.0.0.1:5000/planninganalytics/monitor:${MONITOR_VERSION}-ubi8 $REGISTRY_HOST/dev/monitor:${MONITOR_VERSION}-ubi8
+sudo podman tag 127.0.0.1:5000/planninganalytics/prism-platform:${PRISM_PLATFORM_VERSION}-ubi8 $REGISTRY_HOST/dev/prism-platform:${PRISM_PLATFORM_VERSION}-ubi8
+sudo podman tag 127.0.0.1:5000/planninganalytics/atlas-service:${ATLAS_SERVICE_VERSION}-ubi8 $REGISTRY_HOST/dev/atlas-service:${ATLAS_SERVICE_VERSION}-ubi8
+sudo podman tag 127.0.0.1:5000/planninganalytics/admintool:${ADMINTOOL_VERSION}-ubi8 $REGISTRY_HOST/dev/admintool:${ADMINTOOL_VERSION}-ubi8
+sudo podman tag 127.0.0.1:5000/planninganalytics/pa-content-service:${PA_CONTENT_SERVICE_VERSION}-ubi8 $REGISTRY_HOST/dev/pa-content-service:${PA_CONTENT_SERVICE_VERSION}-ubi8
+sudo podman tag 127.0.0.1:5000/planninganalytics/couchdb:${COUCHDB_VERSION}-ubi8 $REGISTRY_HOST/dev/couchdb:${COUCHDB_VERSION}-ubi8
+sudo podman tag 127.0.0.1:5000/planninganalytics/bss-init:${BSS_INIT_VERSION}-ubi8 $REGISTRY_HOST/dev/bss-init:${BSS_INIT_VERSION}-ubi8
+sudo podman tag 127.0.0.1:5000/planninganalytics/neo-idviz:${NEO_IDVIZ_VERSION}-ubi8 $REGISTRY_HOST/dev/neo-idviz:${NEO_IDVIZ_VERSION}-ubi8
+sudo podman tag 127.0.0.1:5000/planninganalytics/redis:${REDIS_VERSION}-ubi8 $REGISTRY_HOST/dev/redis:${REDIS_VERSION}-ubi8
+sudo podman tag 127.0.0.1:5000/planninganalytics/ibm-java8:${IBM_JAVA8_VERSION}-ubi8 $REGISTRY_HOST/dev/ibm-java8:${IBM_JAVA8_VERSION}-ubi8
+sudo podman tag 127.0.0.1:5000/planninganalytics/mongo:${MONGO_VERSION}-ubi8 $REGISTRY_HOST/dev/mongo:${MONGO_VERSION}-ubi8
+sudo podman tag 127.0.0.1:5000/planninganalytics/share-platform:${SHARE_PLATFORM_VERSION}-ubi8 $REGISTRY_HOST/dev/share-platform:${SHARE_PLATFORM_VERSION}-ubi8
+sudo podman tag 127.0.0.1:5000/planninganalytics/mysql-cluster:${MYSQL_CLUSTER_VERSION}-ubi8 $REGISTRY_HOST/dev/mysql-cluster:${MYSQL_CLUSTER_VERSION}-ubi8
+sudo podman tag 127.0.0.1:5000/planninganalytics/k8s-config:${K8S_CONFIG_VERSION}-ubi8 $REGISTRY_HOST/dev/k8s-config:${K8S_CONFIG_VERSION}-ubi8
 
-sudo podman tag 127.0.0.1:5000/planninganalytics/pa-glass:3.0.6817-ubi8 $REGISTRY_HOST/dev/pa-glass:3.0.6817-ubi8
-sudo podman tag 127.0.0.1:5000/planninganalytics/pa-cdn:3.0.6817-ubi8 $REGISTRY_HOST/dev/pa-cdn:3.0.6817-ubi8
-sudo podman tag 127.0.0.1:5000/planninganalytics/pa-plan-service:1.0.2022060301-ubi8 $REGISTRY_HOST/dev/pa-plan-service:1.0.2022060301-ubi8
-sudo podman tag 127.0.0.1:5000/planninganalytics/pa-predict-svc:1.0.786-ubi8 $REGISTRY_HOST/dev/pa-predict-svc:1.0.786-ubi8
-sudo podman tag 127.0.0.1:5000/planninganalytics/async-service:0.0.266-ubi8 $REGISTRY_HOST/dev/async-service:0.0.266-ubi8
-sudo podman tag 127.0.0.1:5000/planninganalytics/paw-ui-api:1.0.158-ubi8 $REGISTRY_HOST/dev/paw-ui-api:1.0.158-ubi8
-sudo podman tag 127.0.0.1:5000/planninganalytics/prism-proxy:3.0.10513-ubi8 $REGISTRY_HOST/dev/prism-proxy:3.0.10513-ubi8
-sudo podman tag 127.0.0.1:5000/planninganalytics/share-app:1.0.530-ubi8 $REGISTRY_HOST/dev/share-app:1.0.530-ubi8
-sudo podman tag 127.0.0.1:5000/planninganalytics/share-proxy:1.0.530-ubi8 $REGISTRY_HOST/dev/share-proxy:1.0.530-ubi8
-sudo podman tag 127.0.0.1:5000/planninganalytics/pa-gateway:1.0.1057-ubi8 $REGISTRY_HOST/dev/pa-gateway:1.0.1057-ubi8
-sudo podman tag 127.0.0.1:5000/planninganalytics/bss:1.0.1344-ubi8 $REGISTRY_HOST/dev/bss:1.0.1344-ubi8
-sudo podman tag 127.0.0.1:5000/planninganalytics/wa-proxy:1.0.876-ubi8 $REGISTRY_HOST/dev/wa-proxy:1.0.876-ubi8
-sudo podman tag 127.0.0.1:5000/planninganalytics/tm1proxy:1.0.366-ubi8 $REGISTRY_HOST/dev/tm1proxy:1.0.366-ubi8
-sudo podman tag 127.0.0.1:5000/planninganalytics/palm-service:1.0.193-ubi8 $REGISTRY_HOST/dev/palm-service:1.0.193-ubi8
-sudo podman tag 127.0.0.1:5000/planninganalytics/neo-provision:1.0.356-ubi8 $REGISTRY_HOST/dev/neo-provision:1.0.356-ubi8
-sudo podman tag 127.0.0.1:5000/planninganalytics/prism-app:3.0.5477-ubi8 $REGISTRY_HOST/dev/prism-app:3.0.5477-ubi8
-sudo podman tag 127.0.0.1:5000/planninganalytics/user-admin:1.0.651-ubi8 $REGISTRY_HOST/dev/user-admin:1.0.651-ubi8
-sudo podman tag 127.0.0.1:5000/planninganalytics/monitor:2.0.77.2648-ubi8 $REGISTRY_HOST/dev/monitor:2.0.77.2648-ubi8
-sudo podman tag 127.0.0.1:5000/planninganalytics/prism-platform:3.0.2107.3-ubi8 $REGISTRY_HOST/dev/prism-platform:3.0.2107.3-ubi8
-sudo podman tag 127.0.0.1:5000/planninganalytics/atlas-service:99-ubi8 $REGISTRY_HOST/dev/atlas-service:99-ubi8
-sudo podman tag 127.0.0.1:5000/planninganalytics/admintool:1.0.311-ubi8 $REGISTRY_HOST/dev/admintool:1.0.311-ubi8
-sudo podman tag 127.0.0.1:5000/planninganalytics/pa-content-service:1.0.271-ubi8 $REGISTRY_HOST/dev/pa-content-service:1.0.271-ubi8
-sudo podman tag 127.0.0.1:5000/planninganalytics/couchdb:195-ubi8 $REGISTRY_HOST/dev/couchdb:195-ubi8
-sudo podman tag 127.0.0.1:5000/planninganalytics/bss-init:1.0.288-ubi8 $REGISTRY_HOST/dev/bss-init:1.0.288-ubi8
-sudo podman tag 127.0.0.1:5000/planninganalytics/neo-idviz:9.0.531-ubi8 $REGISTRY_HOST/dev/neo-idviz:9.0.531-ubi8
-sudo podman tag 127.0.0.1:5000/planninganalytics/redis:1.0.178-ubi8 $REGISTRY_HOST/dev/redis:1.0.178-ubi8
-sudo podman tag 127.0.0.1:5000/planninganalytics/ibm-java8:204-ubi8 $REGISTRY_HOST/dev/ibm-java8:204-ubi8
-sudo podman tag 127.0.0.1:5000/planninganalytics/mongo:1.0.174-ubi8 $REGISTRY_HOST/dev/mongo:1.0.174-ubi8
-sudo podman tag 127.0.0.1:5000/planninganalytics/share-platform:1.0.384-ubi8 $REGISTRY_HOST/dev/share-platform:1.0.384-ubi8
-sudo podman tag 127.0.0.1:5000/planninganalytics/mysql-cluster:2.0.170-ubi8 $REGISTRY_HOST/dev/mysql-cluster:2.0.170-ubi8
-sudo podman tag 127.0.0.1:5000/planninganalytics/k8s-config:1.0.106-ubi8 $REGISTRY_HOST/dev/k8s-config:1.0.106-ubi8
-
-sudo podman push $REGISTRY_HOST/dev/pa-glass:3.0.6817-ubi8
-sudo podman push $REGISTRY_HOST/dev/pa-cdn:3.0.6817-ubi8
-sudo podman push $REGISTRY_HOST/dev/pa-plan-service:1.0.2022060301-ubi8
-sudo podman push $REGISTRY_HOST/dev/pa-predict-svc:1.0.786-ubi8
-sudo podman push $REGISTRY_HOST/dev/async-service:0.0.266-ubi8
-sudo podman push $REGISTRY_HOST/dev/paw-ui-api:1.0.158-ubi8
-sudo podman push $REGISTRY_HOST/dev/prism-proxy:3.0.10513-ubi8
-sudo podman push $REGISTRY_HOST/dev/share-app:1.0.530-ubi8
-sudo podman push $REGISTRY_HOST/dev/share-proxy:1.0.530-ubi8
-sudo podman push $REGISTRY_HOST/dev/pa-gateway:1.0.1057-ubi8
-sudo podman push $REGISTRY_HOST/dev/bss:1.0.1344-ubi8
-sudo podman push $REGISTRY_HOST/dev/wa-proxy:1.0.876-ubi8
-sudo podman push $REGISTRY_HOST/dev/tm1proxy:1.0.366-ubi8
-sudo podman push $REGISTRY_HOST/dev/palm-service:1.0.193-ubi8
-sudo podman push $REGISTRY_HOST/dev/neo-provision:1.0.356-ubi8
-sudo podman push $REGISTRY_HOST/dev/prism-app:3.0.5477-ubi8
-sudo podman push $REGISTRY_HOST/dev/user-admin:1.0.651-ubi8
-sudo podman push $REGISTRY_HOST/dev/monitor:2.0.77.2648-ubi8
-sudo podman push $REGISTRY_HOST/dev/prism-platform:3.0.2107.3-ubi8
-sudo podman push $REGISTRY_HOST/dev/atlas-service:99-ubi8
-sudo podman push $REGISTRY_HOST/dev/admintool:1.0.311-ubi8
-sudo podman push $REGISTRY_HOST/dev/pa-content-service:1.0.271-ubi8
-sudo podman push $REGISTRY_HOST/dev/couchdb:195-ubi8
-sudo podman push $REGISTRY_HOST/dev/bss-init:1.0.288-ubi8
-sudo podman push $REGISTRY_HOST/dev/neo-idviz:9.0.531-ubi8
-sudo podman push $REGISTRY_HOST/dev/redis:1.0.178-ubi8
-sudo podman push $REGISTRY_HOST/dev/ibm-java8:204-ubi8
-sudo podman push $REGISTRY_HOST/dev/mongo:1.0.174-ubi8
-sudo podman push $REGISTRY_HOST/dev/share-platform:1.0.384-ubi8
-sudo podman push $REGISTRY_HOST/dev/mysql-cluster:2.0.170-ubi8
-sudo podman push $REGISTRY_HOST/dev/k8s-config:1.0.106-ubi8
+sudo podman push $REGISTRY_HOST/dev/pa-glass:${GLASS_VERSION}-ubi8
+sudo podman push $REGISTRY_HOST/dev/pa-cdn:${CDN_VERSION}-ubi8
+sudo podman push $REGISTRY_HOST/dev/pa-plan-service:${PA_PLAN_SERVICE_VERSION}-ubi8
+sudo podman push $REGISTRY_HOST/dev/pa-predict-svc:${PA_PREDICT_SVC_VERSION}-ubi8
+sudo podman push $REGISTRY_HOST/dev/async-service:${ASYNC_SERVICE_VERSION}-ubi8
+sudo podman push $REGISTRY_HOST/dev/paw-ui-api:${PAW_UI_API_VERSION}-ubi8
+sudo podman push $REGISTRY_HOST/dev/prism-proxy:${PRISM_PROXY_VERSION}-ubi8
+sudo podman push $REGISTRY_HOST/dev/share-app:${SHARE_APP_VERSION}-ubi8
+sudo podman push $REGISTRY_HOST/dev/share-proxy:${SHARE_PROXY_VERSION}-ubi8
+sudo podman push $REGISTRY_HOST/dev/pa-gateway:${PA_GATEWAY_VERSION}-ubi8
+sudo podman push $REGISTRY_HOST/dev/bss:${BSS_VERSION}-ubi8
+sudo podman push $REGISTRY_HOST/dev/wa-proxy:${WA_PROXY_VERSION}-ubi8
+sudo podman push $REGISTRY_HOST/dev/tm1proxy:${TM1PROXY_VERSION}-ubi8
+sudo podman push $REGISTRY_HOST/dev/palm-service:${PALM_SERVICE_VERSION}-ubi8
+sudo podman push $REGISTRY_HOST/dev/neo-provision:${NEO_PROVISION_VERSION}-ubi8
+sudo podman push $REGISTRY_HOST/dev/prism-app:${PRISM_APP_VERSION}-ubi8
+sudo podman push $REGISTRY_HOST/dev/user-admin:${USER_ADMIN_VERSION}-ubi8
+sudo podman push $REGISTRY_HOST/dev/monitor:${MONITOR_VERSION}-ubi8
+sudo podman push $REGISTRY_HOST/dev/prism-platform:${PRISM_PLATFORM_VERSION}-ubi8
+sudo podman push $REGISTRY_HOST/dev/atlas-service:${ATLAS_SERVICE_VERSION}-ubi8
+sudo podman push $REGISTRY_HOST/dev/admintool:${ADMINTOOL_VERSION}-ubi8
+sudo podman push $REGISTRY_HOST/dev/pa-content-service:${PA_CONTENT_SERVICE_VERSION}-ubi8
+sudo podman push $REGISTRY_HOST/dev/couchdb:${COUCHDB_VERSION}-ubi8
+sudo podman push $REGISTRY_HOST/dev/bss-init:${BSS_INIT_VERSION}-ubi8
+sudo podman push $REGISTRY_HOST/dev/neo-idviz:${NEO_IDVIZ_VERSION}-ubi8
+sudo podman push $REGISTRY_HOST/dev/redis:${REDIS_VERSION}-ubi8
+sudo podman push $REGISTRY_HOST/dev/ibm-java8:${IBM_JAVA8_VERSION}-ubi8
+sudo podman push $REGISTRY_HOST/dev/mongo:${MONGO_VERSION}-ubi8
+sudo podman push $REGISTRY_HOST/dev/share-platform:${SHARE_PLATFORM_VERSION}-ubi8
+sudo podman push $REGISTRY_HOST/dev/mysql-cluster:${MYSQL_CLUSTER_VERSION}-ubi8
+sudo podman push $REGISTRY_HOST/dev/k8s-config:${K8S_CONFIG_VERSION}-ubi8
