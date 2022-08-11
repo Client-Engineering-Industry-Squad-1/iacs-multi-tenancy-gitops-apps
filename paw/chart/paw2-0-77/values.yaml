@@ -256,7 +256,7 @@ waProxy:
   ibmCognosGatewayUrl: http://172.16.1.6:80/ibmcognos/cgi-bin/cognos.cgi
   memoryLimit: 3072M
   memoryRequestLimit: 1536M
-  paLoginMode: cam
+  paLoginMode: tm1
   replicas: 2
   sessionTimeout: 60m
   tm1LoginUrl: http://172.16.1.4:52670
