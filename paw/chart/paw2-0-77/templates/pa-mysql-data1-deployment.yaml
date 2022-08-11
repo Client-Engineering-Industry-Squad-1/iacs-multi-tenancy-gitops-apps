@@ -81,13 +81,7 @@ spec:
            - name: PA_KUBE_TLS_CA_CERT
              value: /run/secrets/paw/tls-cert/{{ .Values.secrets.tlsCaCertName }}
           imagePullPolicy: IfNotPresent
-          resources:
-            limits:
-              cpu: {{ .Values.secrets.cpuLimit }}
-              memory: {{ .Values.secrets.memoryLimit }}
-            requests:
-              cpu: {{ .Values.secrets.cpuRequestLimit }}
-              memory: {{ .Values.secrets.memoryRequestLimit }}
+          
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:
@@ -112,13 +106,7 @@ spec:
           ports:
             - containerPort: 31001
               protocol: TCP
-          resources:
-            limits:
-              cpu: "{{ .Values.common.cpuLimit }}"
-              memory: "{{ .Values.common.memoryLimit }}"
-            requests:
-              cpu: "{{ .Values.common.cpuRequestLimit }}"
-              memory: "{{ .Values.common.memoryRequestLimit }}"
+
           env:
             - name: PINGSERVICE_PORT
               value: "31001"
@@ -155,13 +143,7 @@ spec:
           ports:
             - containerPort: 12201
               protocol: TCP
-          resources:
-            limits:
-              cpu: "{{ .Values.mysqlDataStunnel.cpuLimit }}"
-              memory: "{{ .Values.mysqlDataStunnel.memoryLimit }}"
-            requests:
-              cpu: "{{ .Values.mysqlDataStunnel.cpuRequestLimit }}"
-              memory: "{{ .Values.mysqlDataStunnel.memoryRequestLimit }}"
+
           env:
             - name: MYSQL_INSTANCE
               value: "{{ .Values.instanceIdWithinNamespace }}"
@@ -229,13 +211,7 @@ spec:
           ports:
             - containerPort: 2201
               protocol: TCP
-          resources:
-            limits:
-              cpu: "{{ .Values.mysqlData.cpuLimit }}"
-              memory: "{{ .Values.mysqlData.memoryLimit }}"
-            requests:
-              cpu: "{{ .Values.mysqlData.cpuRequestLimit }}"
-              memory: "{{ .Values.mysqlData.memoryRequestLimit }}"
+
           env:
             - name: HOSTNAMES
               value: "mysql-data1{{ .Values.instanceIdWithinNamespace }}.{{ .Release.Namespace }}.{{ .Values.common.internalDomainName }} mysql-data2{{ .Values.instanceIdWithinNamespace }}.{{ .Release.Namespace }}.{{ .Values.common.internalDomainName }} mysql-mgmt{{ .Values.instanceIdWithinNamespace }}.{{ .Release.Namespace }}.{{ .Values.common.internalDomainName }}"
