@@ -78,13 +78,7 @@ spec:
            - name: TRUST_STORE_PASSWORD
              value: "/run/secrets/paw/java-truststore-credential/credential"
           imagePullPolicy: IfNotPresent
-          resources:
-            limits:
-              cpu: {{ .Values.secrets.cpuLimit }}
-              memory: {{ .Values.secrets.memoryLimit }}
-            requests:
-              cpu: {{ .Values.secrets.cpuRequestLimit }}
-              memory: {{ .Values.secrets.memoryRequestLimit }}
+          
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:
@@ -114,13 +108,6 @@ spec:
               value: "/run/config/cacerts"
             - name: TRUST_STORE_PASSWORD
               value: "/run/secrets/paw/java-truststore-credential/credential"
-          resources:
-            limits:
-              cpu: "{{ .Values.paPredict.cpuLimit }}"
-              memory: "{{ .Values.paPredict.memoryLimit }}"
-            requests:
-              cpu: "{{ .Values.paPredict.cpuRequestLimit }}"
-              memory: "{{ .Values.paPredict.memoryRequestLimit }}"
           securityContext:
             runAsNonRoot: true
             capabilities:

@@ -61,13 +61,6 @@ spec:
             - containerPort: 3000
               protocol: TCP
           env:
-          resources:
-            limits:
-              cpu: "{{ .Values.pawUiApi.cpuLimit }}"
-              memory: "{{ .Values.pawUiApi.memoryLimit }}"
-            requests:
-              cpu: "{{ .Values.pawUiApi.cpuRequestLimit }}"
-              memory: "{{ .Values.pawUiApi.memoryRequestLimit }}"
           securityContext:
             runAsNonRoot: true
             capabilities:

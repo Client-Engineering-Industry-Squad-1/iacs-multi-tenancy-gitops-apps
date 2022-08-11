@@ -78,13 +78,7 @@ spec:
            - name: PA_KUBE_TLS_CA_CERT
              value: /run/secrets/paw/tls-cert/{{ .Values.secrets.tlsCaCertName }}
           imagePullPolicy: IfNotPresent
-          resources:
-            limits:
-              cpu: {{ .Values.secrets.cpuLimit }}
-              memory: {{ .Values.secrets.memoryLimit }}
-            requests:
-              cpu: {{ .Values.secrets.cpuRequestLimit }}
-              memory: {{ .Values.secrets.memoryRequestLimit }}
+          
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:
@@ -116,13 +110,6 @@ spec:
               value: "{ \"name\": \"redis-cluster{{ .Values.instanceIdWithinNamespace }}\", \"sentinels\": [{ \"host\": \"sentinel1{{ .Values.instanceIdWithinNamespace }}.{{ .Release.Namespace }}.{{ .Values.common.internalDomainName }}\", \"port\": 26379 }, { \"host\": \"sentinel2{{ .Values.instanceIdWithinNamespace }}.{{ .Release.Namespace }}.{{ .Values.common.internalDomainName }}\", \"port\": 26379 }, { \"host\": \"sentinel3{{ .Values.instanceIdWithinNamespace }}.{{ .Release.Namespace }}.{{ .Values.common.internalDomainName }}\", \"port\": 26379 }], \"tls\": true }"
             - name: TM1PROXY_SSL_CA_BUNDLE_FILE
               value: "/run/config/cacerts.pem"
-          resources:
-            limits:
-              cpu: "{{ .Values.tm1proxy.cpuLimit }}"
-              memory: "{{ .Values.tm1proxy.memoryLimit }}"
-            requests:
-              cpu: "{{ .Values.tm1proxy.cpuRequestLimit }}"
-              memory: "{{ .Values.tm1proxy.memoryRequestLimit }}"
           securityContext:
             runAsNonRoot: true
             capabilities:

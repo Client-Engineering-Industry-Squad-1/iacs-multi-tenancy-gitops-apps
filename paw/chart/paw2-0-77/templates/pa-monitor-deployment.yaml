@@ -88,13 +88,7 @@ spec:
            - name: TRUST_STORE_PASSWORD
              value: "/run/secrets/paw/java-truststore-credential/credential"
           imagePullPolicy: IfNotPresent
-          resources:
-            limits:
-              cpu: {{ .Values.secrets.cpuLimit }}
-              memory: {{ .Values.secrets.memoryLimit }}
-            requests:
-              cpu: {{ .Values.secrets.cpuRequestLimit }}
-              memory: {{ .Values.secrets.memoryRequestLimit }}
+          
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:
@@ -136,13 +130,6 @@ spec:
               value: "{{ .Values.monitor.AdminAgentTimeout }}"
             - name: TRUST_STORE_PASSWORD
               value: "/run/secrets/paw/java-truststore-credential/credential"
-          resources:
-            limits:
-              cpu: "{{ .Values.monitor.cpuLimit }}"
-              memory: "{{ .Values.monitor.memoryLimit }}"
-            requests:
-              cpu: "{{ .Values.monitor.cpuRequestLimit }}"
-              memory: "{{ .Values.monitor.memoryRequestLimit }}"
           securityContext:
             runAsNonRoot: true
             capabilities:

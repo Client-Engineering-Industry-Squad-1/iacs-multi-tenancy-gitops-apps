@@ -85,13 +85,7 @@ spec:
            - name: PA_KUBE_TLS_CA_CERT
              value: /run/secrets/paw/tls-cert/{{ .Values.secrets.tlsCaCertName }}
           imagePullPolicy: IfNotPresent
-          resources:
-            limits:
-              cpu: {{ .Values.secrets.cpuLimit }}
-              memory: {{ .Values.secrets.memoryLimit }}
-            requests:
-              cpu: {{ .Values.secrets.cpuRequestLimit }}
-              memory: {{ .Values.secrets.memoryRequestLimit }}
+          
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:
@@ -161,13 +155,6 @@ spec:
               value: "{{ .Values.waProxy.apiAllowOrigins }}"
             - name: PAW_INSTANCE
               value: "{{ .Values.instanceIdWithinNamespace }}"              
-          resources:
-            limits:
-              cpu: "{{ .Values.waProxy.cpuLimit }}"
-              memory: "{{ .Values.waProxy.memoryLimit }}"
-            requests:
-              cpu: "{{ .Values.waProxy.cpuRequestLimit }}"
-              memory: "{{ .Values.waProxy.memoryRequestLimit }}"
           securityContext:
             runAsNonRoot: true
             capabilities:

@@ -84,13 +84,7 @@ spec:
            - name: TRUST_STORE_PASSWORD
              value: "/run/secrets/paw/java-truststore-credential/credential"
           imagePullPolicy: IfNotPresent
-          resources:
-            limits:
-              cpu: {{ .Values.secrets.cpuLimit }}
-              memory: {{ .Values.secrets.memoryLimit }}
-            requests:
-              cpu: {{ .Values.secrets.cpuRequestLimit }}
-              memory: {{ .Values.secrets.memoryRequestLimit }}
+          
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:
@@ -113,13 +107,6 @@ spec:
           image: {{ .Values.docker_registry_prefix }}/mysql-cluster:2.0.170-ubi8
           command: ["/bin/bash"]
           args: ["-c", "/tools/wait-for-mysql-server.sh"]
-          resources:
-            limits:
-              cpu: "{{ .Values.common.cpuLimit }}"
-              memory: "{{ .Values.common.memoryLimit }}"
-            requests:
-              cpu: "{{ .Values.common.cpuRequestLimit }}"
-              memory: "{{ .Values.common.memoryRequestLimit }}"
           env:
             - name: ENABLE_SSL
               value: "true"
@@ -162,13 +149,6 @@ spec:
               value: "/run/config/cacerts"              
             - name: TRUST_STORE_PASSWORD
               value: "/run/secrets/paw/java-truststore-credential/credential"
-          resources:
-            limits:
-              cpu: "{{ .Values.bss.cpuLimit }}"
-              memory: "{{ .Values.bss.memoryLimit }}"
-            requests:
-              cpu: "{{ .Values.bss.cpuRequestLimit }}"
-              memory: "{{ .Values.bss.memoryRequestLimit }}"
           securityContext:
             runAsNonRoot: true
             capabilities:

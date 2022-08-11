@@ -82,13 +82,7 @@ spec:
            - name: PA_KUBE_TLS_CA_CERT
              value: /run/secrets/paw/tls-cert/{{ .Values.secrets.tlsCaCertName }}
           imagePullPolicy: IfNotPresent
-          resources:
-            limits:
-              cpu: {{ .Values.secrets.cpuLimit }}
-              memory: {{ .Values.secrets.memoryLimit }}
-            requests:
-              cpu: {{ .Values.secrets.cpuRequestLimit }}
-              memory: {{ .Values.secrets.memoryRequestLimit }}
+          
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:
@@ -114,13 +108,7 @@ spec:
               value: "redis3{{ .Values.instanceIdWithinNamespace }}"
             - name: ENABLE_SSL
               value: "true"
-          resources:
-            limits:
-              cpu: "{{ .Values.common.cpuLimit }}"
-              memory: "{{ .Values.common.memoryLimit }}"
-            requests:
-              cpu: "{{ .Values.common.cpuRequestLimit }}"
-              memory: "{{ .Values.common.memoryRequestLimit }}"
+
           securityContext:
             runAsNonRoot: true
             capabilities:
@@ -142,13 +130,6 @@ spec:
           ports:
             - containerPort: 6379
               protocol: TCP
-          resources:
-            limits:
-              cpu: "{{ .Values.redis.cpuLimit }}"
-              memory: "{{ .Values.redis.memoryLimit }}"
-            requests:
-              cpu: "{{ .Values.redis.cpuRequestLimit }}"
-              memory: "{{ .Values.redis.memoryRequestLimit }}"
           env:            
             - name: REDIS_TYPE
               value: "slave"

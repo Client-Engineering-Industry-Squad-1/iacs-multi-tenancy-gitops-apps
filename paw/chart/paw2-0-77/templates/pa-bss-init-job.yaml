@@ -63,13 +63,6 @@ spec:
               value: "{{ .Values.bssInit.enableIntentBar }}"
             - name: WAProxyLocation
               value: "http://wa-proxy{{ .Values.instanceIdWithinNamespace }}.{{ .Release.Namespace }}.{{ .Values.common.internalDomainName }}:1331"
-          resources:
-            limits:
-              cpu: "{{ .Values.bssInit.cpuLimit }}"
-              memory: "{{ .Values.bssInit.memoryLimit }}"
-            requests:
-              cpu: "{{ .Values.bssInit.cpuRequestLimit }}"
-              memory: "{{ .Values.bssInit.memoryRequestLimit }}"
           securityContext:
             runAsNonRoot: true
             capabilities:

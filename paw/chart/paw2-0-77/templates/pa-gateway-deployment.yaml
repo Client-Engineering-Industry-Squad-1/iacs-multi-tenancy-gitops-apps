@@ -65,13 +65,6 @@ spec:
               value: "{{ .Values.common.proxyTimeoutSeconds }}"
             - name: WAProxyLocation
               value: "http://wa-proxy{{ .Values.instanceIdWithinNamespace }}.{{ .Release.Namespace }}.{{ .Values.common.internalDomainName }}:1338"              
-          resources:
-            limits:
-              cpu: "{{ .Values.gateway.cpuLimit }}"
-              memory: "{{ .Values.gateway.memoryLimit }}"
-            requests:
-              cpu: "{{ .Values.gateway.cpuRequestLimit }}"
-              memory: "{{ .Values.gateway.memoryRequestLimit }}"
           securityContext:
             runAsNonRoot: true
             capabilities:

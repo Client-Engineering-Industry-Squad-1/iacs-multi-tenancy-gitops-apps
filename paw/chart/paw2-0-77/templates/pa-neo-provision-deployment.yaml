@@ -84,13 +84,7 @@ spec:
            - name: TRUST_STORE_PASSWORD
              value: "/run/secrets/paw/java-truststore-credential/credential"
           imagePullPolicy: IfNotPresent
-          resources:
-            limits:
-              cpu: {{ .Values.secrets.cpuLimit }}
-              memory: {{ .Values.secrets.memoryLimit }}
-            requests:
-              cpu: {{ .Values.secrets.cpuRequestLimit }}
-              memory: {{ .Values.secrets.memoryRequestLimit }}
+          
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:
@@ -126,13 +120,6 @@ spec:
               value: "/run/secrets/paw/java-truststore-credential/credential"
             - name: SecureSessionCookie
               value: "{{ .Values.common.secureSessionCookie }}"
-          resources:
-            limits:
-              cpu: "{{ .Values.neoProvision.cpuLimit }}"
-              memory: "{{ .Values.neoProvision.memoryLimit }}"
-            requests:
-              cpu: "{{ .Values.neoProvision.cpuRequestLimit }}"
-              memory: "{{ .Values.neoProvision.memoryRequestLimit }}"
           securityContext:
             runAsNonRoot: true
             capabilities:

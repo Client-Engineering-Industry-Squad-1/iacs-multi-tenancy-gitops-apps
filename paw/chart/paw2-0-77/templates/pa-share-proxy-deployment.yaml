@@ -67,13 +67,6 @@ spec:
               value: "http://share-app{{ .Values.instanceIdWithinNamespace }}:9700"
             - name: SharePlatformLocation
               value: "http://share-platform{{ .Values.instanceIdWithinNamespace }}:9110"              
-          resources:
-            limits:
-              cpu: "{{ .Values.shareProxy.cpuLimit }}"
-              memory: "{{ .Values.shareProxy.memoryLimit }}"
-            requests:
-              cpu: "{{ .Values.shareProxy.cpuRequestLimit }}"
-              memory: "{{ .Values.shareProxy.memoryRequestLimit }}"
           securityContext:
             runAsNonRoot: true
             capabilities:

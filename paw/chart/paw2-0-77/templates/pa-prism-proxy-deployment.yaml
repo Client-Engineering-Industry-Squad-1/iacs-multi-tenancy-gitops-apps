@@ -73,13 +73,6 @@ spec:
               value: "http://prism-platform{{ .Values.instanceIdWithinNamespace }}:9080"
             - name: ProxyTimeoutSeconds
               value: "{{ .Values.common.proxyTimeoutSeconds }}"
-          resources:
-            limits:
-              cpu: "{{ .Values.prismProxy.cpuLimit }}"
-              memory: "{{ .Values.prismProxy.memoryLimit }}"
-            requests:
-              cpu: "{{ .Values.prismProxy.cpuRequestLimit }}"
-              memory: "{{ .Values.prismProxy.memoryRequestLimit }}"
           securityContext:
             runAsNonRoot: true
             capabilities:

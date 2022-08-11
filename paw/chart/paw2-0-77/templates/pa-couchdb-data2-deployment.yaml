@@ -84,13 +84,7 @@ spec:
            - name: PA_KUBE_TLS_CA_CERT
              value: /run/secrets/paw/tls-cert/{{ .Values.secrets.tlsCaCertName }}
           imagePullPolicy: IfNotPresent
-          resources:
-            limits:
-              cpu: {{ .Values.secrets.cpuLimit }}
-              memory: {{ .Values.secrets.memoryLimit }}
-            requests:
-              cpu: {{ .Values.secrets.cpuRequestLimit }}
-              memory: {{ .Values.secrets.memoryRequestLimit }}
+          
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:
@@ -124,13 +118,6 @@ spec:
               value: "/run/secrets/paw/tls-cert/tls.crt"
             - name: SSL_CA_BUNDLE_FILE
               value: "/run/config/cacerts.pem"
-          resources:
-            limits:
-              cpu: "{{ .Values.couchdb.cpuLimit }}"
-              memory: "{{ .Values.couchdb.memoryLimit }}"
-            requests:
-              cpu: "{{ .Values.couchdb.cpuRequestLimit }}"
-              memory: "{{ .Values.couchdb.memoryRequestLimit }}"
           securityContext:
             runAsNonRoot: true
             capabilities:

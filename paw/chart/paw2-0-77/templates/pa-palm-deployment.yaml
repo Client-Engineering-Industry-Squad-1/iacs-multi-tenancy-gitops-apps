@@ -61,13 +61,6 @@ spec:
             - containerPort: 9085
               protocol: TCP            
           env:
-          resources:
-            limits:
-              cpu: "{{ .Values.palmService.cpuLimit }}"
-              memory: "{{ .Values.palmService.memoryLimit }}"
-            requests:
-              cpu: "{{ .Values.palmService.cpuRequestLimit }}"
-              memory: "{{ .Values.palmService.memoryRequestLimit }}"
           securityContext:
             runAsNonRoot: true
             capabilities:

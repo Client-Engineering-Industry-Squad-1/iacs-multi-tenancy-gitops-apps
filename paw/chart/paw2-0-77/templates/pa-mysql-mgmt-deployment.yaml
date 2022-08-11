@@ -71,13 +71,7 @@ spec:
            - name: PA_KUBE_TLS_CA_CERT
              value: /run/secrets/paw/tls-cert/{{ .Values.secrets.tlsCaCertName }}
           imagePullPolicy: IfNotPresent
-          resources:
-            limits:
-              cpu: {{ .Values.secrets.cpuLimit }}
-              memory: {{ .Values.secrets.memoryLimit }}
-            requests:
-              cpu: {{ .Values.secrets.cpuRequestLimit }}
-              memory: {{ .Values.secrets.memoryRequestLimit }}
+          
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:
@@ -102,13 +96,7 @@ spec:
           ports:
             - containerPort: 31001
               protocol: TCP
-          resources:
-            limits:
-              cpu: "{{ .Values.common.cpuLimit }}"
-              memory: "{{ .Values.common.memoryLimit }}"
-            requests:
-              cpu: "{{ .Values.common.cpuRequestLimit }}"
-              memory: "{{ .Values.common.memoryRequestLimit }}"
+
           env:
             - name: PINGSERVICE_PORT
               value: "31001"
@@ -145,13 +133,6 @@ spec:
           ports:
             - containerPort: 11186
               protocol: TCP
-          resources:
-            limits:
-              cpu: "{{ .Values.mysqlMgmtStunnel.cpuLimit }}"
-              memory: "{{ .Values.mysqlMgmtStunnel.memoryLimit }}"
-            requests:
-              cpu: "{{ .Values.mysqlMgmtStunnel.cpuRequestLimit }}"
-              memory: "{{ .Values.mysqlMgmtStunnel.memoryRequestLimit }}"
           env:
             - name: MYSQL_INSTANCE
               value: "{{ .Values.instanceIdWithinNamespace }}"
@@ -224,13 +205,6 @@ spec:
             privileged: false
             readOnlyRootFilesystem: false
             allowPrivilegeEscalation: false
-          resources:
-            limits:
-              cpu: "{{ .Values.mysqlMgmt.cpuLimit }}"
-              memory: "{{ .Values.mysqlMgmt.memoryLimit }}"
-            requests:
-              cpu: "{{ .Values.mysqlMgmt.cpuRequestLimit }}"
-              memory: "{{ .Values.mysqlMgmt.memoryRequestLimit }}"
           env:
             - name: ENABLE_SSL
               value: "true"
