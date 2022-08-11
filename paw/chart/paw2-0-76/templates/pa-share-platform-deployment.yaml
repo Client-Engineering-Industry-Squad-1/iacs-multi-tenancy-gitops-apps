@@ -72,7 +72,7 @@ spec:
             allowPrivilegeEscalation: false
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: IfNotPresent 
       hostNetwork: false
       hostIPC: false
       hostPID: false
