@@ -86,7 +86,7 @@ common:
   secureSessionCookie: false
   tm1APIPort: 
   tm1ApplicationsLocation: http://172.16.1.4:9510
-  tm1Location: https://172.16.1.4:5895
+  tm1Location: http://172.16.1.4:5895
   emailSmtpUrl: 
   emailFrom: 
   sendGridApiKey: 
