@@ -193,7 +193,6 @@ spec:
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
           imagePullPolicy: IfNotPresent
-              - mysqladmin --host="${MYSQL_SERVER:-mysql-server}" ping  
       hostNetwork: false
       hostIPC: false
       hostPID: false

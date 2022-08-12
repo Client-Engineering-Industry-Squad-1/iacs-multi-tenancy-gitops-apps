@@ -179,4 +179,3 @@ spec:
     rollingUpdate:
       maxUnavailable: 1
       maxSurge: 1
-

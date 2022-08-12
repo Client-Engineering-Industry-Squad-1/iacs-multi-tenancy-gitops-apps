@@ -14,6 +14,13 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.persistence.size }}
+  storageClassName: {{ .Values.persistence.class }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
 metadata:
   labels:
     app: {{ .Values.common.appName }}
@@ -28,6 +35,13 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.persistence.size }}
+  storageClassName: {{ .Values.persistence.class }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
 metadata:
   labels:
     app: {{ .Values.common.appName }}
@@ -42,6 +56,13 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.persistence.size }}
+  storageClassName: {{ .Values.persistence.class }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
 metadata:
   labels:
     app: {{ .Values.common.appName }}
@@ -56,6 +77,13 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.persistence.size }}
+  storageClassName: {{ .Values.persistence.class }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
 metadata:
   labels:
     app: {{ .Values.common.appName }}
@@ -70,6 +98,13 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.persistence.size }}
+  storageClassName: {{ .Values.persistence.class }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
 metadata:
   labels:
     app: {{ .Values.common.appName }}
@@ -84,6 +119,13 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.persistence.size }}
+  storageClassName: {{ .Values.persistence.class }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
 metadata:
   labels:
     app: {{ .Values.common.appName }}
@@ -98,6 +140,13 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.persistence.size }}
+  storageClassName: {{ .Values.persistence.class }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
 metadata:
   labels:
     app: {{ .Values.common.appName }}
@@ -112,6 +161,13 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.persistence.size }}
+  storageClassName: {{ .Values.persistence.class }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
 metadata:
   labels:
     app: {{ .Values.common.appName }}
@@ -126,6 +182,13 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.persistence.size }}
+  storageClassName: {{ .Values.persistence.class }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
 metadata:
   labels:
     app: {{ .Values.common.appName }}
@@ -140,6 +203,13 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.persistence.size }}
+  storageClassName: {{ .Values.persistence.class }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
 metadata:
   labels:
     app: {{ .Values.common.appName }}
@@ -154,6 +224,13 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.persistence.size }}
+  storageClassName: {{ .Values.persistence.class }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
 metadata:
   labels:
     app: {{ .Values.common.appName }}
@@ -168,6 +245,13 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.persistence.size }}
+  storageClassName: {{ .Values.persistence.class }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
 metadata:
   labels:
     app: {{ .Values.common.appName }}
@@ -182,3 +266,8 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.persistence.size }}
+  storageClassName: {{ .Values.persistence.class }}
+
